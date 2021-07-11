@@ -10,7 +10,7 @@
     <ng-container id="extraFields" class="row">
       <input class="cb" type="checkbox" id="pads" />
       <span class="field">Pads</span>
-      <input type="text" [id]="" [value]="" class="field" />
+      <input type="text" id="padNotes" class="field" [value]="title" (change)="onFieldChange($event.target)"/>
       <input class="cb" type="checkbox" id="feel" />
       <span class="field">Lever Feel</span>
       <input type="text" [id]="" [value]="" class="field" />
