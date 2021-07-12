@@ -7,9 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bike-inspection';
+  output = '';
 
   onFieldChange(field: any) {
     console.log("field: ", field.value);
-    ;
+    this.output = field.value;
   }
 }
