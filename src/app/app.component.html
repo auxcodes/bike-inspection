@@ -4,17 +4,19 @@
       <div class="section-header fields-header">
         <h2>Bike Assessment</h2>
       </div>
-      <h3>Brakes</h3>
-      <div class="fields" id="defaultFields">
-        <input class="title cb" type="checkbox" id="extraSelectAll" />
-        <span class="title title-text">Item</span>
-        <span class="title title-text">Notes</span>
-        <ng-container id="brakeFields" class="row" *ngFor="let field of brakeFields; let i = index">
-            <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected"/>
+      <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
+        <h3>{{group.groupLabel}}</h3>
+        <div class="fields" id="{{i}}">
+          <input class="title cb" type="checkbox" id="extraSelectAll" />
+          <span class="title title-text">Item</span>
+          <span class="title title-text">Notes</span>
+          <ng-container id="groupFields" class="row" *ngFor="let field of group.fields; let i = index">
+            <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" />
             <span class="field">{{field?.text}}</span>
             <input type="text" class="field" [value]="field?.value" (change)="onFieldChange($event.target)" />
-        </ng-container>
-      </div>
+          </ng-container>
+        </div>
+      </ng-container>
       <h3>Wheels</h3>
       <div class="fields" id="defaultFields">
         <input class="title cb" type="checkbox" id="extraSelectAll" />
