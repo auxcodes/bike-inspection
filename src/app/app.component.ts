@@ -17,9 +17,9 @@ export class AppComponent {
       groupLabel: 'Brakes',
       fields:
         [
-          { name: 'pads', text: 'Pads', selected: false, id: '$pads', value: 'pads' },
-          { name: 'lever', text: 'Lever Feel', selected: false, id: '$lever', value: 'lever' },
-          { name: 'bleed', text: 'Bleed', selected: false, id: '$bleed', value: 'bleed' }
+          { name: 'pads', text: 'Pads', selected: false, id: '$pads', value: 'Okay' },
+          { name: 'lever', text: 'Lever Feel', selected: false, id: '$lever', value: 'Okay' },
+          { name: 'bleed', text: 'Bleed', selected: false, id: '$bleed', value: 'Okay' }
         ]
     },
     {
@@ -27,10 +27,10 @@ export class AppComponent {
       groupLabel: 'Wheels',
       fields:
         [
-          { name: 'tyres', text: 'Tyres', selected: false, id: '$tyres', value: 'tyres' },
-          { name: 'spokes', text: 'Spokes', selected: false, id: '$spokes', value: 'spokes' },
-          { name: 'true', text: 'True', selected: false, id: '$true', value: 'true' },
-          { name: 'hubAdjust', text: 'Hub Adjust', selected: false, id: '$hubAdjust', value: 'hubAdjust' }
+          { name: 'tyres', text: 'Tyres', selected: false, id: '$tyres', value: 'Okay' },
+          { name: 'spokes', text: 'Spokes', selected: false, id: '$spokes', value: 'Okay' },
+          { name: 'true', text: 'True', selected: false, id: '$true', value: 'Okay' },
+          { name: 'hubAdjust', text: 'Hub Adjust', selected: false, id: '$hubAdjust', value: 'Okay' }
         ]
     },
     {
@@ -38,9 +38,9 @@ export class AppComponent {
       groupLabel: 'Bearings',
       fields:
         [
-          { name: 'hubs', text: 'Hubs', selected: false, id: '$hubs', value: 'hubs' },
-          { name: 'headset', text: 'Headset', selected: false, id: '$headset', value: 'headset' },
-          { name: 'bottomBracket', text: 'Bottom Bracket', selected: false, id: '$bottomBracket', value: 'bottomBracket' }
+          { name: 'hubs', text: 'Hubs', selected: false, id: '$hubs', value: 'Okay' },
+          { name: 'headset', text: 'Headset', selected: false, id: '$headset', value: 'Okay' },
+          { name: 'bottomBracket', text: 'Bottom Bracket', selected: false, id: '$bottomBracket', value: 'Okay' }
         ]
     },
     {
@@ -48,12 +48,12 @@ export class AppComponent {
       groupLabel: 'Drive Train',
       fields:
         [
-          { name: 'chain', text: 'Chain', selected: false, id: '$chain', value: 'chain' },
-          { name: 'cassette', text: 'Cassette', selected: false, id: '$cassette', value: 'cassette' },
-          { name: 'chainrings', text: 'Chainrings', selected: false, id: '$chainrings', value: 'chainrings' },
-          { name: 'cranks', text: 'Cranks', selected: false, id: '$cranks', value: 'cranks' },
-          { name: 'shifters', text: 'hifters', selected: false, id: '$shifters', value: 'shifters' },
-          { name: 'derailleur', text: 'Derailleur', selected: false, id: '$derailleur', value: 'derailleur' }
+          { name: 'chain', text: 'Chain', selected: false, id: '$chain', value: 'Okay' },
+          { name: 'cassette', text: 'Cassette', selected: false, id: '$cassette', value: 'Okay' },
+          { name: 'chainrings', text: 'Chainrings', selected: false, id: '$chainrings', value: 'Okay' },
+          { name: 'cranks', text: 'Cranks', selected: false, id: '$cranks', value: 'Okay' },
+          { name: 'shifters', text: 'hifters', selected: false, id: '$shifters', value: 'Okay' },
+          { name: 'derailleur', text: 'Derailleur', selected: false, id: '$derailleur', value: 'Okay' }
         ]
     },
     {
@@ -61,9 +61,9 @@ export class AppComponent {
       groupLabel: 'Cables',
       fields:
         [
-          { name: 'gear', text: 'Gear', selected: false, id: '$gear', value: 'gear' },
-          { name: 'brake', text: 'Brake', selected: false, id: '$brake', value: 'brake' },
-          { name: 'dropper', text: 'dropper', selected: false, id: '$dropper', value: 'dropper' }
+          { name: 'gear', text: 'Gear', selected: false, id: '$gear', value: 'Okay' },
+          { name: 'brake', text: 'Brake', selected: false, id: '$brake', value: 'Okay' },
+          { name: 'dropper', text: 'dropper', selected: false, id: '$dropper', value: 'Okay' }
         ]
     },
     {
@@ -71,16 +71,46 @@ export class AppComponent {
       groupLabel: 'Contact Points',
       fields:
         [
-          { name: 'grips', text: 'Grips', selected: false, id: '$grips', value: 'grips' },
-          { name: 'bartape', text: 'Bar Tape', selected: false, id: '$bartape', value: 'bartape' },
-          { name: 'saddle', text: 'Saddle', selected: false, id: '$saddle', value: 'saddle' },
-          { name: 'pedals', text: 'Pedals', selected: false, id: '$pedals', value: 'pedals' }
+          { name: 'grips', text: 'Grips', selected: false, id: '$grips', value: 'Okay' },
+          { name: 'bartape', text: 'Bar Tape', selected: false, id: '$bartape', value: 'Okay' },
+          { name: 'saddle', text: 'Saddle', selected: false, id: '$saddle', value: 'Okay' },
+          { name: 'pedals', text: 'Pedals', selected: false, id: '$pedals', value: 'Okay' }
         ]
     },
   ]
 
-  onFieldChange(field: any) {
-    console.log("field: ", field.value);
-    //this.output = this.output + ' \n - ' + this.fieldsJson[groupId['']fields[field.id['text']]] + ': ' + field.value;
+  onFieldChange(groupId: number, field: any) {
+    const index = this.fieldsJson[groupId].fields.findIndex(jsonField => field.id === jsonField.id);
+    const selected: boolean = field.value;
+    this.fieldsJson[groupId].fields[index].selected = selected;
+
+    if (selected) {
+      this.fieldsJson[groupId].fields[index].value = field.value;
+      this.updateOutput();
+    }
+
+  }
+
+  onFieldSelected(groupId: number, field: any) {
+    const index = this.fieldsJson[groupId].fields.findIndex(jsonField => field.id === jsonField.name);
+    this.fieldsJson[groupId].fields[index].selected = field.checked;
+
+    this.updateOutput();
+  }
+
+  private updateOutput() {
+    this.output = 'Inspection Notes:';
+    this.fieldsJson.forEach(group => {
+      let fieldsText: string = '';
+      group.fields.forEach(field => {
+        if (field.selected) {
+          fieldsText = fieldsText + ' \n - ' + field.text + ': ' + field.value;
+        }
+      });
+      if (fieldsText) {
+        this.output = this.output + ' \n' + group.groupLabel;
+        this.output = this.output + fieldsText;
+      }
+    });
   }
 }

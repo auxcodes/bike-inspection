@@ -10,10 +10,10 @@
           <input class="title cb" type="checkbox" id="extraSelectAll" />
           <span class="title title-text">Item</span>
           <span class="title title-text">Notes</span>
-          <ng-container id="groupFields" class="row" *ngFor="let field of group.fields; let i = index">
-            <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" />
+          <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
+            <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" (change)="onFieldSelected(i, $event.target)" />
             <span class="field">{{field?.text}}</span>
-            <input type="text" class="field" [value]="field?.value" (change)="onFieldChange($event.target)" />
+            <input type="text" class="field" [id]="field.id" [value]="field?.value" (change)="onFieldChange(i, $event.target)" />
           </ng-container>
         </div>
       </ng-container>
