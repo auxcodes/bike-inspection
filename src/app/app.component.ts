@@ -9,7 +9,10 @@ import { JsonGroup } from './shared/interfaces/json-group';
 })
 export class AppComponent {
   title = 'bike-inspection';
-  output = 'Inspection Notes:';
+  output = '';
+  notesTitle = 'Inspection:'
+  extraNotes = '';
+
 
   fieldsJson: JsonGroup[] = [
     {
@@ -98,11 +101,23 @@ export class AppComponent {
     this.updateOutput();
   }
 
+  onSelectAll(groupId: number, checkBox: any) {
+    this.fieldsJson[groupId].fields.forEach((field: JsonField) => {
+      field.selected = checkBox.checked;
+    });
+    this.updateOutput();
+  }
+
+  onOtherNotes(field: any) {
+    this.extraNotes = '\n\n' + 'Notes: \n' + field.value;
+    this.updateOutput();
+  }
+
   private updateOutput() {
-    this.output = 'Inspection Notes:';
+    this.output = this.notesTitle;
     this.fieldsJson.forEach(group => {
-      let fieldsText: string = '';
-      group.fields.forEach(field => {
+      let fieldsText = '';
+      group.fields.forEach((field: JsonField) => {
         if (field.selected) {
           fieldsText = fieldsText + ' \n - ' + field.text + ': ' + field.value;
         }
@@ -112,5 +127,8 @@ export class AppComponent {
         this.output = this.output + fieldsText;
       }
     });
+    if (this.extraNotes !== '') {
+      this.output = this.output + this.extraNotes;
+    }
   }
 }

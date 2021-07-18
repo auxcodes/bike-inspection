@@ -7,7 +7,7 @@
       <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
         <h3>{{group.groupLabel}}</h3>
         <div class="fields" id="{{i}}">
-          <input class="title cb" type="checkbox" id="extraSelectAll" />
+          <input class="title cb" type="checkbox" id="i + 'cb'" (change)="onSelectAll(i, $event.target)" />
           <span class="title title-text">Item</span>
           <span class="title title-text">Notes</span>
           <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
@@ -19,7 +19,7 @@
       </ng-container>
       <h3>Other Notes</h3>
       <div class="fields" id="defaultFields">
-        <textarea class="text-area"></textarea>
+        <textarea class="text-area" (change)="onOtherNotes($event.target)"></textarea>
       </div>
     </section>
     <section class="output-section">
