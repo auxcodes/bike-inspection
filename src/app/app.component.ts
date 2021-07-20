@@ -12,6 +12,8 @@ export class AppComponent {
   output = '';
   notesTitle = 'Inspection:'
   extraNotes = '';
+  totalCost = 0;
+  prices: { id: string; cost: number}[] = []
 
 
   fieldsJson: JsonGroup[] = [
@@ -113,6 +115,23 @@ export class AppComponent {
     this.updateOutput();
   }
 
+  onCostChange(field: any) {
+    const index = this.prices.findIndex(cost => cost.id === field.id);
+    this.totalCost = 0; 
+    if (index === -1) {
+      this.prices.push({ id: field.id, cost: field.value === '' ? 0 : field.value });
+    }
+    else {
+      console.log(index);
+      this.prices[index].cost = field.value;
+    }
+
+    this.prices.forEach(price => {
+      this.totalCost = this.totalCost + +price.cost;
+    });
+    this.updateOutput();
+  }
+
   private updateOutput() {
     this.output = this.notesTitle;
     this.fieldsJson.forEach(group => {
@@ -129,6 +148,9 @@ export class AppComponent {
     });
     if (this.extraNotes !== '') {
       this.output = this.output + this.extraNotes;
+    }
+    if (this.totalCost > 0) {
+      this.output = this.output + '\n\n Total Cost: $ ' + this.totalCost.toFixed(2);
     }
   }
 }
