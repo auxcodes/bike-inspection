@@ -1,0 +1,82 @@
+$btn-color: #fff;
+$btn-hover-color: #eee;
+$btn-active-color: #ddd;
+
+.content {
+  display: flex;
+  margin-top: 0;
+
+  .section-container {
+    display: flex;
+    flex-grow: 1;
+  }
+
+
+  .field-section {
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    .fields-header {
+      display: flex;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: min-content max-content auto 5em;
+      width: auto;
+      max-width: 700px;
+      margin: 16px auto 16px 0;
+
+      .title {
+        border-bottom: 1px solid #666666;
+      }
+
+      .title-text {
+        margin: 2px;
+        text-align: center;
+      }
+
+      .cb {
+        margin: auto;
+      }
+
+      .field {
+        padding: 3px 5px;
+        margin: 2px;
+      }
+
+      .id {
+        font-family: Consolas;
+      }
+
+      .text-area {
+        grid-column: 1/-1;
+      }
+    }
+  }
+
+  .output-section {
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    .fields-header {
+      display: flex;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: min-content max-content auto;
+      width: auto;
+      max-width: 700px;
+      margin: 16px auto 16px 0;
+
+      .text-area {
+        grid-column: 1/-1;
+        min-height: 250px;
+        white-space: pre;
+      }
+    }
+  }
+}

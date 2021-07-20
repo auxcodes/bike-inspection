@@ -1,0 +1,36 @@
+<section class="content">
+  <div class="section-container">
+    <section class="field-section container-section">
+      <div class="section-header fields-header">
+        <h2>Inspection Notes</h2>
+      </div>
+      <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
+        <h3>{{group.groupLabel}}</h3>
+        <div class="fields" id="{{i}}">
+          <input class="title cb" type="checkbox" id="i + 'cb'" (change)="onSelectAll(i, $event.target)" />
+          <span class="title title-text">Item</span>
+          <span class="title title-text">Notes</span>
+          <span class="title title-text">Cost</span>
+          <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
+            <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" (change)="onFieldSelected(i, $event.target)" />
+            <span class="field">{{field?.text}}</span>
+            <input type="text" class="field" [id]="field.id" [value]="field?.value" (change)="onFieldChange(i, $event.target)" />
+            <input type="number" class="field" [id]="field.name + '-cost'" value="0.00" (change)="onCostChange($event.target)" />
+          </ng-container>
+        </div>
+      </ng-container>
+      <h3>Other Notes</h3>
+      <div class="fields" id="defaultFields">
+        <textarea class="text-area" (change)="onOtherNotes($event.target)"></textarea>
+      </div>
+    </section>
+    <section class="output-section container-section">
+      <div class="section-header fields-header">
+        <h2>Booking Notes</h2>
+      </div>
+      <div class="fields" id="output">
+        <textarea class="text-area" [value]="output"></textarea>
+      </div>
+    </section>
+  </div>
+</section>
