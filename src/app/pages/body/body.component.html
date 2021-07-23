@@ -24,13 +24,6 @@
         <textarea class="text-area" (change)="onOtherNotes($event.target)"></textarea>
       </div>
     </section>
-    <section class="output-section container-section">
-      <div class="section-header fields-header">
-        <h2>Booking Notes</h2>
-      </div>
-      <div class="fields" id="output">
-        <textarea class="text-area" [value]="output"></textarea>
-      </div>
-    </section>
+    <app-booking-notes class="booking-notes" [notesInput]="output"></app-booking-notes>
   </div>
 </section>

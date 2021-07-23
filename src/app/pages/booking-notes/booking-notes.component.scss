@@ -1,0 +1,24 @@
+.output-section {
+  width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  .fields-header {
+    display: flex;
+  }
+
+  .fields {
+    display: grid;
+    grid-template-columns: min-content max-content auto;
+    width: 98%;
+    margin: 16px auto 16px auto;
+
+    .text-area {
+      grid-column: 1/-1;
+      min-height: 250px;
+      white-space: pre;
+      resize: vertical;
+      overflow-x: auto;
+    }
+  }
+}
