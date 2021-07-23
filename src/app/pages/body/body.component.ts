@@ -122,13 +122,12 @@ export class BodyComponent implements OnInit {
   }
 
   onCostChange(field: any) {
-    const index = this.prices.findIndex(cost => cost.id === field.id);
+    const index = this.priceIndex(field.id);
     this.totalCost = 0;
     if (index === -1) {
       this.prices.push({ id: field.id, cost: field.value === '' ? 0 : field.value });
     }
     else {
-      console.log(index);
       this.prices[index].cost = field.value;
     }
 
@@ -138,13 +137,19 @@ export class BodyComponent implements OnInit {
     this.updateOutput();
   }
 
+  private priceIndex(id: string) {
+    return this.prices.findIndex(cost => cost.id === id);
+  }
+
   private updateOutput() {
     this.output = this.notesTitle;
     this.fieldsJson.forEach(group => {
       let fieldsText = '';
       group.fields.forEach((field: JsonField) => {
         if (field.selected) {
-          fieldsText = fieldsText + ' \n - ' + field.text + ': ' + field.value;
+          const index = this.priceIndex(field.name + '-cost');
+          const cost = index > -1 ? this.prices[index].cost : 0;
+          fieldsText = fieldsText + ' \n - ' + field.text + ': ' + field.value + (cost > 0 ? ' - $' + Number(cost).toFixed(2) : '') ;
         }
       });
       if (fieldsText) {
@@ -156,7 +161,7 @@ export class BodyComponent implements OnInit {
       this.output = this.output + this.extraNotes;
     }
     if (this.totalCost > 0) {
-      this.output = this.output + '\n\n Total Cost: $ ' + this.totalCost.toFixed(2);
+      this.output = this.output + '\n\n Total Cost: $' + this.totalCost.toFixed(2);
     }
   }
 
