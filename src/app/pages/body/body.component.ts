@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { JsonField } from '../../shared/interfaces/json-field';
 import { JsonGroup } from '../../shared/interfaces/json-group';
 
@@ -15,6 +15,9 @@ export class BodyComponent implements OnInit {
   extraNotes = '';
   totalCost = 0;
   prices: { id: string; cost: number }[] = []
+
+  screenWidth = 1500;
+  showBookingNotes = true;
 
 
   fieldsJson: JsonGroup[] = [
@@ -88,6 +91,10 @@ export class BodyComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth < 1000) {
+      this.showBookingNotes = false;
+    }
   }
 
   onFieldChange(groupId: number, field: any) {
@@ -135,6 +142,14 @@ export class BodyComponent implements OnInit {
       this.totalCost = this.totalCost + +price.cost;
     });
     this.updateOutput();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+
+    this.screenWidth = window.innerWidth;
+    this.showBookingNotes = this.screenWidth < 1000 ? false : true;
+
   }
 
   private priceIndex(id: string) {

@@ -2,7 +2,8 @@
   <div class="section-container">
     <section class="field-section container-section">
       <div class="section-header fields-header">
-        <h2>Inspection Notes</h2>
+        <h2 *ngIf="showBookingNotes">Inspection Notes</h2>
+        <app-tab-header class="tab-header" *ngIf="!showBookingNotes"></app-tab-header>
       </div>
       <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
         <h3>{{group.groupLabel}}</h3>
@@ -24,6 +25,6 @@
         <textarea class="text-area" (change)="onOtherNotes($event.target)"></textarea>
       </div>
     </section>
-    <app-booking-notes class="booking-notes" [notesInput]="output"></app-booking-notes>
+    <app-booking-notes *ngIf="showBookingNotes" class="booking-notes" [notesInput]="output"></app-booking-notes>
   </div>
 </section>

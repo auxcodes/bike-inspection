@@ -9,13 +9,24 @@ $btn-active-color: #ddd;
   .section-container {
     display: flex;
     flex-grow: 1;
+    flex-direction: column;
   }
 
+  .tab-header{
+      width: 100%;
+  }
 
   .field-section {
-    width: 47%;
     margin-left: 10px;
     margin-right: 10px;
+
+    @media screen and (min-width: 1000px) {
+      width: 47%;
+    }
+
+    @media screen and (max-width: 1000px) {
+      width: 96%;
+    }
 
     .fields-header {
       display: flex;

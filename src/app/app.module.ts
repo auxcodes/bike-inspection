@@ -8,6 +8,7 @@ import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { BodyComponent } from './pages/body/body.component';
 import { BookingNotesComponent } from './pages/booking-notes/booking-notes.component';
+import { TabHeaderComponent } from './shared/components/tab-header/tab-header.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { BookingNotesComponent } from './pages/booking-notes/booking-notes.compo
     HeaderComponent,
     FooterComponent,
     BodyComponent,
-    BookingNotesComponent
+    BookingNotesComponent,
+    TabHeaderComponent
   ],
   imports: [
     BrowserModule,
