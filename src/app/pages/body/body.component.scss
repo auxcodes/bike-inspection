@@ -9,11 +9,10 @@ $btn-active-color: #ddd;
   .section-container {
     display: flex;
     flex-grow: 1;
-    flex-direction: column;
   }
 
-  .tab-header{
-      width: 100%;
+  .tab-header {
+    width: 100%;
   }
 
   .field-section {
@@ -65,7 +64,16 @@ $btn-active-color: #ddd;
         resize: vertical;
         overflow-x: auto;
       }
+
+      .booking-text-area {
+        grid-column: 1/-1;
+        min-height: 250px;
+        white-space: pre;
+        resize: vertical;
+        overflow-x: auto;
+      }
     }
+
   }
 
   .booking-notes {

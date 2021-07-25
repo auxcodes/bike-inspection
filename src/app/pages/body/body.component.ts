@@ -18,7 +18,7 @@ export class BodyComponent implements OnInit {
 
   screenWidth = 1500;
   showBookingNotes = true;
-
+  mobileView = false;
 
   fieldsJson: JsonGroup[] = [
     {
@@ -94,6 +94,7 @@ export class BodyComponent implements OnInit {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth < 1000) {
       this.showBookingNotes = false;
+      this.mobileView = true;
     }
   }
 
@@ -148,8 +149,12 @@ export class BodyComponent implements OnInit {
   onResize(event: any) {
 
     this.screenWidth = window.innerWidth;
-    this.showBookingNotes = this.screenWidth < 1000 ? false : true;
+    this.mobileView = this.screenWidth < 1000 ? true : false;
 
+  }
+
+  onShowBookingNotes(show: boolean) {
+    this.showBookingNotes = show;
   }
 
   private priceIndex(id: string) {

@@ -2,29 +2,34 @@
   <div class="section-container">
     <section class="field-section container-section">
       <div class="section-header fields-header">
-        <h2 *ngIf="showBookingNotes">Inspection Notes</h2>
-        <app-tab-header class="tab-header" *ngIf="!showBookingNotes"></app-tab-header>
+        <h2 *ngIf="!mobileView">Inspection Notes</h2>
+        <app-tab-header class="tab-header" *ngIf="mobileView" (bookingNotes)="onShowBookingNotes($event)"></app-tab-header>
       </div>
-      <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
-        <h3>{{group.groupLabel}}</h3>
-        <div class="fields" id="{{i}}">
-          <input class="title cb" type="checkbox" id="i + 'cb'" (change)="onSelectAll(i, $event.target)" />
-          <span class="title title-text">Item</span>
-          <span class="title title-text">Notes</span>
-          <span class="title title-text">Cost</span>
-          <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
-            <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" (change)="onFieldSelected(i, $event.target)" />
-            <span class="field">{{field?.text}}</span>
-            <input type="text" class="field" [id]="field.id" [value]="field?.value" (change)="onFieldChange(i, $event.target)" />
-            <input type="number" class="field" [id]="field.name + '-cost'" value="0.00" (change)="onCostChange($event.target)" />
-          </ng-container>
+      <ng-container *ngIf="(mobileView && !showBookingNotes) || !mobileView">
+        <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
+          <h3>{{group.groupLabel}}</h3>
+          <div class="fields" id="{{i}}">
+            <input class="title cb" type="checkbox" id="i + 'cb'" (change)="onSelectAll(i, $event.target)" />
+            <span class="title title-text">Item</span>
+            <span class="title title-text">Notes</span>
+            <span class="title title-text">Cost</span>
+            <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
+              <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" (change)="onFieldSelected(i, $event.target)" />
+              <span class="field">{{field?.text}}</span>
+              <input type="text" class="field" [id]="field.id" [value]="field?.value" (change)="onFieldChange(i, $event.target)" />
+              <input type="number" class="field" [id]="field.name + '-cost'" value="0.00" (change)="onCostChange($event.target)" />
+            </ng-container>
+          </div>
+        </ng-container>
+        <h3>Other Notes</h3>
+        <div class="fields" id="defaultFields">
+          <textarea class="text-area" (change)="onOtherNotes($event.target)"></textarea>
         </div>
       </ng-container>
-      <h3>Other Notes</h3>
-      <div class="fields" id="defaultFields">
-        <textarea class="text-area" (change)="onOtherNotes($event.target)"></textarea>
+      <div *ngIf="mobileView && showBookingNotes" class="fields" id="output">
+        <textarea class="booking-text-area" [value]="output"></textarea>
       </div>
     </section>
-    <app-booking-notes *ngIf="showBookingNotes" class="booking-notes" [notesInput]="output"></app-booking-notes>
+    <app-booking-notes *ngIf="!mobileView" class="booking-notes" [notesInput]="output"></app-booking-notes>
   </div>
 </section>
