@@ -150,6 +150,7 @@ export class BodyComponent implements OnInit {
 
     this.screenWidth = window.innerWidth;
     this.mobileView = this.screenWidth < 1000 ? true : false;
+    this.showBookingNotes = false;
 
   }
 

@@ -3,12 +3,12 @@ $btn-hover-color: #eee;
 $btn-active-color: #ddd;
 
 .content {
-  display: flex;
+  //display: flex;
   margin-top: 0;
 
   .section-container {
-    display: flex;
-    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 
   .tab-header {
@@ -20,11 +20,12 @@ $btn-active-color: #ddd;
     margin-right: 10px;
 
     @media screen and (min-width: 1000px) {
-      width: 47%;
+      //width: 47%;
     }
 
     @media screen and (max-width: 1000px) {
-      width: 96%;
+      //width: 96%;
+      grid-column: span 2;
     }
 
     .fields-header {
@@ -77,6 +78,5 @@ $btn-active-color: #ddd;
   }
 
   .booking-notes {
-    width: 47%;
   }
 }
