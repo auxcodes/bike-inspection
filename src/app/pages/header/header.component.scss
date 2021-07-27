@@ -28,4 +28,35 @@
     }
   }
 
+  ul {
+    display: contents;
+
+    .user-link {
+      display: flex;
+      cursor: pointer;
+      height: 100%;
+      width: 70px;
+      list-style-type: none;
+
+      .icon-in {
+        display: flex;
+        mask: url(/assets/icons/account_circle/account_circle.svg) no-repeat 50% 50%;
+        height: 60px;
+        width: 60px;
+        mask-size: contain;
+        background-color: #e2e2e2;
+        margin: 5px;
+      }
+
+      .icon-out {
+        display: flex;
+        mask: url(/assets/icons/account_circle/account_circle.svg) no-repeat 50% 50%;
+        height: 60px;
+        width: 60px;
+        mask-size: contain;
+        background-color: #d2d2d2;
+        margin: 5px;
+      }
+    }
+  }
 }

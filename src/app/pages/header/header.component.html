@@ -3,4 +3,14 @@
   <div class="description">
     <p>Generate booking notes for your bike services... </p>
   </div>
+  <nav>
+    <ul>
+      <li class="user-link" *ngIf="!isAuthenticated">
+        <a class="icon-out" routerLink="/auth"></a>
+      </li>
+      <li class="user-link" *ngIf="isAuthenticated">
+        <a class="icon-in" (click)="onLogout()"></a>
+      </li>
+    </ul>
+  </nav>
 </div>

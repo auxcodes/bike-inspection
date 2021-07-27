@@ -29,6 +29,8 @@ a {
   router-outlet + * {
     flex: 1 0 auto;
     margin: auto;
+    max-width: 1500px;
+    width: 100%;
   }
 
   .header {
