@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { FieldsService } from '../../services/fields.service';
 import { JsonField } from '../../shared/interfaces/json-field';
 import { JsonGroup } from '../../shared/interfaces/json-group';
 
@@ -20,75 +21,11 @@ export class BodyComponent implements OnInit {
   showBookingNotes = true;
   mobileView = false;
 
-  fieldsJson: JsonGroup[] = [
-    {
-      groupId: 'brakes',
-      groupLabel: 'Brakes',
-      fields:
-        [
-          { name: 'pads', text: 'Pads', selected: false, id: '$pads', value: 'Okay' },
-          { name: 'lever', text: 'Lever Feel', selected: false, id: '$lever', value: 'Okay' },
-          { name: 'bleed', text: 'Bleed', selected: false, id: '$bleed', value: 'Okay' }
-        ]
-    },
-    {
-      groupId: 'wheels',
-      groupLabel: 'Wheels',
-      fields:
-        [
-          { name: 'tyres', text: 'Tyres', selected: false, id: '$tyres', value: 'Okay' },
-          { name: 'spokes', text: 'Spokes', selected: false, id: '$spokes', value: 'Okay' },
-          { name: 'true', text: 'True', selected: false, id: '$true', value: 'Okay' },
-          { name: 'hubAdjust', text: 'Hub Adjust', selected: false, id: '$hubAdjust', value: 'Okay' }
-        ]
-    },
-    {
-      groupId: 'bearings',
-      groupLabel: 'Bearings',
-      fields:
-        [
-          { name: 'hubs', text: 'Hubs', selected: false, id: '$hubs', value: 'Okay' },
-          { name: 'headset', text: 'Headset', selected: false, id: '$headset', value: 'Okay' },
-          { name: 'bottomBracket', text: 'Bottom Bracket', selected: false, id: '$bottomBracket', value: 'Okay' }
-        ]
-    },
-    {
-      groupId: 'driveTrain',
-      groupLabel: 'Drive Train',
-      fields:
-        [
-          { name: 'chain', text: 'Chain', selected: false, id: '$chain', value: 'Okay' },
-          { name: 'cassette', text: 'Cassette', selected: false, id: '$cassette', value: 'Okay' },
-          { name: 'chainrings', text: 'Chainrings', selected: false, id: '$chainrings', value: 'Okay' },
-          { name: 'cranks', text: 'Cranks', selected: false, id: '$cranks', value: 'Okay' },
-          { name: 'shifters', text: 'hifters', selected: false, id: '$shifters', value: 'Okay' },
-          { name: 'derailleur', text: 'Derailleur', selected: false, id: '$derailleur', value: 'Okay' }
-        ]
-    },
-    {
-      groupId: 'cables',
-      groupLabel: 'Cables',
-      fields:
-        [
-          { name: 'gear', text: 'Gear', selected: false, id: '$gear', value: 'Okay' },
-          { name: 'brake', text: 'Brake', selected: false, id: '$brake', value: 'Okay' },
-          { name: 'dropper', text: 'dropper', selected: false, id: '$dropper', value: 'Okay' }
-        ]
-    },
-    {
-      groupId: 'contactPoints',
-      groupLabel: 'Contact Points',
-      fields:
-        [
-          { name: 'grips', text: 'Grips', selected: false, id: '$grips', value: 'Okay' },
-          { name: 'bartape', text: 'Bar Tape', selected: false, id: '$bartape', value: 'Okay' },
-          { name: 'saddle', text: 'Saddle', selected: false, id: '$saddle', value: 'Okay' },
-          { name: 'pedals', text: 'Pedals', selected: false, id: '$pedals', value: 'Okay' }
-        ]
-    },
-  ]
+  fieldsJson: JsonGroup[] = []
 
-  constructor() { }
+  constructor(private fieldService: FieldsService) {
+
+  }
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
@@ -96,7 +33,23 @@ export class BodyComponent implements OnInit {
       this.showBookingNotes = false;
       this.mobileView = true;
     }
+
+    this.fieldService.checkStorage().then(() => {
+      this.subscribeToFields();
+    });
   }
+
+  private subscribeToFields() {
+    this.fieldService.fields.subscribe(fields => {
+      this.fieldsJson = fields;
+    });
+    this.fieldService.extraNotes.subscribe(notes => {
+      this.extraNotes = notes;
+    });
+    this.fieldService.outputNotes.subscribe(output => {
+      this.output = output;
+    });
+  };
 
   onFieldChange(groupId: number, field: any) {
     const index = this.fieldsJson[groupId].fields.findIndex(jsonField => field.id === jsonField.id);
@@ -184,6 +137,10 @@ export class BodyComponent implements OnInit {
     if (this.totalCost > 0) {
       this.output = this.output + '\n\n Total Cost: $' + this.totalCost.toFixed(2);
     }
+    this.fieldService.fields.next(this.fieldsJson);
+    this.fieldService.extraNotes.next(this.extraNotes);
+    this.fieldService.outputNotes.next(this.output);
+    this.fieldService.updateStorage();
   }
 
 }

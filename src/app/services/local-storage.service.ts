@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { JsonStorage } from '../shared/interfaces/json-storage';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +21,7 @@ export class LocalStorageService {
     }
   }
 
-  updateJSONEntry(key: string, value: string) {
+  updateJSONEntry(key: string, value: JsonStorage) {
     if (this.supported) {
       localStorage.setItem(key, JSON.stringify(value));
     }
@@ -32,7 +34,7 @@ export class LocalStorageService {
     return null;
   }
 
-  async readJSONEntry(key: string): Promise<object> {
+  async readJSONEntry(key: string): Promise<JsonStorage> {
     if (this.supported && this.hasEntry) {
       return JSON.parse(localStorage.getItem(key));
     }
