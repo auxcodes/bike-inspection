@@ -3,14 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { BodyComponent } from './pages/body/body.component';
 import { AuthComponent } from './pages/auth/auth.component';
-import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inspect', pathMatch: 'full' },
   {
     path: 'inspect',
-    component: BodyComponent,
-    canActivate: [AuthGuard]
+    component: BodyComponent
   },
   { path: 'auth', component: AuthComponent }];
 

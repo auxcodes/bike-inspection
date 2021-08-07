@@ -43,13 +43,15 @@ export class FieldsService {
     this.outputNotes.next('');
   }
 
-  updateStorage() {
+  updateStorage(): JsonStorage {
     const jsonEntry: JsonStorage = {
+      'dateTimeStamp': Date.now(),
       'fields': this.fields.value,
       'extraNotes': this.extraNotes.value,
       'outputNotes': this.outputNotes.value,
     }
     this.storageService.updateJSONEntry(this.storageKey, jsonEntry);
+    return jsonEntry;
   }
 
 }

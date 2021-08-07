@@ -1,4 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+
+import { CloudStorageService } from '../../services/cloud-storage.service';
 import { FieldsService } from '../../services/fields.service';
 import { JsonField } from '../../shared/interfaces/json-field';
 import { JsonGroup } from '../../shared/interfaces/json-group';
@@ -8,7 +13,7 @@ import { JsonGroup } from '../../shared/interfaces/json-group';
   templateUrl: './body.component.html',
   styleUrls: ['./body.component.scss']
 })
-export class BodyComponent implements OnInit {
+export class BodyComponent implements OnInit, OnDestroy {
 
   title = 'bike-inspection';
   output = '';
@@ -23,7 +28,9 @@ export class BodyComponent implements OnInit {
 
   fieldsJson: JsonGroup[] = []
 
-  constructor(private fieldService: FieldsService) {
+  private bookingsSub: Subscription;
+
+  constructor(private fieldService: FieldsService, private csService: CloudStorageService, private router: Router) {
 
   }
 
@@ -37,6 +44,25 @@ export class BodyComponent implements OnInit {
     this.fieldService.checkStorage().then(() => {
       this.subscribeToFields();
     });
+
+    if (this.csService.canSync()) {
+      this.bookingsSub = this.csService.pullBooking().subscribe( bookings => {
+        console.log('any bookings? ', bookings);
+
+        if (bookings) {
+          console.log('bookings: ', bookings);
+        }
+        else {
+          console.log('no bookings');
+        }
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.bookingsSub) {
+      this.bookingsSub.unsubscribe();
+    }
   }
 
   private subscribeToFields() {
@@ -109,6 +135,15 @@ export class BodyComponent implements OnInit {
 
   onShowBookingNotes(show: boolean) {
     this.showBookingNotes = show;
+  }
+
+  onSyncStorage() {
+    if (this.csService.canSync()) {
+      this.csService.pushBooking();
+    }
+    else {
+      this.router.navigate(['auth']);
+    }
   }
 
   private priceIndex(id: string) {

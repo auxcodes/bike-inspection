@@ -4,6 +4,7 @@
       <div class="section-header fields-header">
         <h2 *ngIf="!mobileView">Inspection Notes</h2>
         <app-tab-header class="tab-header" *ngIf="mobileView" (bookingNotes)="onShowBookingNotes($event)"></app-tab-header>
+        <button (click)="onSyncStorage()" on>Sync</button>
       </div>
       <ng-container *ngIf="(mobileView && !showBookingNotes) || !mobileView">
         <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
