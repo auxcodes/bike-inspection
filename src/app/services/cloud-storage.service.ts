@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class CloudStorageService {
 
   bookings: JsonStorage[] = [];
+  storageSize = 10;
 
   constructor(private http: HttpClient,
     private fieldService: FieldsService, private authService: AuthService) { }
@@ -23,6 +24,10 @@ export class CloudStorageService {
   pushBooking() {
     const booking = this.fieldService.updateStorage();
     this.bookings.push(booking);
+    if (this.bookings.length > this.storageSize) {
+      console.log('pop: ', this.bookings.length);
+      this.bookings.pop();
+    }
     // limit size of history, 
     this.http
       .put(
