@@ -17,10 +17,19 @@
   .description {
     margin: auto auto auto 0;
 
+    @media screen and (max-width: 560px) {
+      p {
+        display: none;
+        width: auto;
+      }
+    }
+
     p {
       margin: 5px 0 0 0;
       width: auto;
     }
+
+
 
     span {
       font-size: 1.25em;

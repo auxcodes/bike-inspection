@@ -13,6 +13,7 @@ import { TabHeaderComponent } from './shared/components/tab-header/tab-header.co
 import { AuthComponent } from './pages/auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { BookingHistoryComponent } from './pages/booking-history/booking-history.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     BookingNotesComponent,
     TabHeaderComponent,
     AuthComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    BookingHistoryComponent
   ],
   imports: [
     BrowserModule,

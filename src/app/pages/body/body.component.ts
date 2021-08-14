@@ -29,6 +29,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   fieldsJson: JsonGroup[] = []
 
   private bookingsSub: Subscription;
+  private includeCost = true;
 
   constructor(private fieldService: FieldsService, private csService: CloudStorageService, private router: Router) {
 
@@ -108,6 +109,11 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.updateOutput();
   }
 
+  onToggleCost(event: boolean) {
+    this.includeCost = event;
+    this.updateOutput();
+  }
+
   onCostChange(field: any) {
     const index = this.priceIndex(field.id);
     this.totalCost = 0;
@@ -158,7 +164,7 @@ export class BodyComponent implements OnInit, OnDestroy {
         if (field.selected) {
           const index = this.priceIndex(field.name + '-cost');
           const cost = index > -1 ? this.prices[index].cost : 0;
-          fieldsText = fieldsText + ' \n - ' + field.text + ': ' + field.value + (cost > 0 ? ' - $' + Number(cost).toFixed(2) : '') ;
+          fieldsText = fieldsText + ' \n - ' + field.text + ': ' + field.value + (cost > 0 && this.includeCost ? ' - $' + Number(cost).toFixed(2) : '') ;
         }
       });
       if (fieldsText) {
@@ -169,7 +175,7 @@ export class BodyComponent implements OnInit, OnDestroy {
     if (this.extraNotes !== '') {
       this.output = this.output + this.extraNotes;
     }
-    if (this.totalCost > 0) {
+    if (this.totalCost > 0 && this.includeCost) {
       this.output = this.output + '\n\n Total Cost: $' + this.totalCost.toFixed(2);
     }
     this.fieldService.fields.next(this.fieldsJson);

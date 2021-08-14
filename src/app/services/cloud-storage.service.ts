@@ -25,7 +25,6 @@ export class CloudStorageService {
     const booking = this.fieldService.updateStorage();
     this.bookings.push(booking);
     if (this.bookings.length > this.storageSize) {
-      console.log('pop: ', this.bookings.length);
       this.bookings.pop();
     }
     // limit size of history, 

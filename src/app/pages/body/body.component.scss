@@ -19,12 +19,7 @@ $btn-active-color: #ddd;
     margin-left: 10px;
     margin-right: 10px;
 
-    @media screen and (min-width: 1000px) {
-      //width: 47%;
-    }
-
     @media screen and (max-width: 1000px) {
-      //width: 96%;
       grid-column: span 2;
     }
 

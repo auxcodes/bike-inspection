@@ -4,7 +4,7 @@
       <div class="section-header fields-header">
         <h2 *ngIf="!mobileView">Inspection Notes</h2>
         <app-tab-header class="tab-header" *ngIf="mobileView" (bookingNotes)="onShowBookingNotes($event)"></app-tab-header>
-        <button (click)="onSyncStorage()" on>Sync</button>
+        <button (click)="onSyncStorage()">Sync</button>
       </div>
       <ng-container *ngIf="(mobileView && !showBookingNotes) || !mobileView">
         <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
@@ -31,6 +31,6 @@
         <textarea class="booking-text-area" [value]="output"></textarea>
       </div>
     </section>
-    <app-booking-notes *ngIf="!mobileView" class="booking-notes" [notesInput]="output"></app-booking-notes>
+    <app-booking-notes *ngIf="!mobileView" class="booking-notes" [notesInput]="output" (showCosts)="onToggleCost($event)"></app-booking-notes>
   </div>
 </section>
