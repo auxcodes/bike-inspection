@@ -2,7 +2,7 @@
 [https://bike-assessment.aux.codes](https://bike-assessment.aux.codes)
 - Work in progress, so some functionality not yet be fully implemented
 
-![Site Preview](https://github.com/auxcodes/bike-inspection/blob/master/img/bikeInspectionFullPage.png)
+![Site Preview](https://github.com/auxcodes/bike-inspection/blob/main/img/bikeInspectionFullPage.png)
 
 Website for generating consistent notes when inspecting bikes for servicing.
 
