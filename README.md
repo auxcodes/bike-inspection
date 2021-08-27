@@ -1,5 +1,16 @@
-# Bike Inspection
-## Bike Condition Assessment 
+# Bike Inspection Notes
+[https://bike-assessment.aux.codes](https://bike-assessment.aux.codes)
+- Work in progress, so some functionality not yet be fully implemented
+
+![Site Preview](https://github.com/auxcodes/bike-inspection/blob/master/img/bikeInspectionFullPage.png)
+
+Website for generating consistent notes when inspecting bikes for servicing.
+
+- Generates text in an easy to read format
+- Sync across multiple devices; inspect with phone in hand and sync to desktop
+- Select fields you would like displayed in the notes
+- Add costs for specific items
+- Costs can be toggled on and off
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.
 
