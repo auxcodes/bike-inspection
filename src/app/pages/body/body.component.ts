@@ -46,7 +46,7 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.subscribeToFields();
     });
 
-    if (this.csService.canSync()) {
+    if (this.csService.canSync().value) {
       this.bookingsSub = this.csService.pullBooking().subscribe( bookings => {
         console.log('any bookings? ', bookings);
 

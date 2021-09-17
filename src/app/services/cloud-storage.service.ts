@@ -18,7 +18,7 @@ export class CloudStorageService {
     private fieldService: FieldsService, private authService: AuthService) { }
 
   canSync() {
-    return this.authService.user.value;
+    return this.authService.user;
   }
 
   pushBooking() {

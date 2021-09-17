@@ -1,1 +1,8 @@
-<p>booking-history works!</p>
+<div *ngIf="canView" class="overlay">
+  <div class="content container-section">
+    <div class="row" *ngFor="let booking of bookings">
+      <p class="date">{{booking.dateTimeStamp | date: "dd MMM yyyy hh:mm:ss z"}}</p>
+      <p class="notes">{{booking.outputNotes}}</p>
+    </div>
+  </div>
+</div>

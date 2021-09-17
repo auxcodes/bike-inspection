@@ -14,6 +14,7 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { BookingHistoryComponent } from './pages/booking-history/booking-history.component';
+import { OverlayComponent } from './shared/components/overlay/overlay.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { BookingHistoryComponent } from './pages/booking-history/booking-history
     TabHeaderComponent,
     AuthComponent,
     LoadingSpinnerComponent,
-    BookingHistoryComponent
+    BookingHistoryComponent,
+    OverlayComponent
   ],
   imports: [
     BrowserModule,
