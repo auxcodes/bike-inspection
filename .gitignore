@@ -44,3 +44,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+src/environments/environment.ts
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
+.vs/bike-inspection/v16/.suo

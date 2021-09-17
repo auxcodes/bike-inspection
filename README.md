@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0fd12385-31a4-48ba-8a9d-bf717a4403ae/deploy-status)](https://app.netlify.com/sites/loving-borg-a5e04a/deploys)
+
 # Bike Inspection Notes
 [https://bike-assessment.aux.codes](https://bike-assessment.aux.codes)
 - Work in progress, so some functionality not yet be fully implemented
