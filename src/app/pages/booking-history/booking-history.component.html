@@ -1,4 +1,4 @@
-<div *ngIf="canView" class="overlay">
+<div *ngIf="canView" class="overlay" (click)="onClose()">
   <div class="content container-section">
     <div class="row" *ngFor="let booking of bookings">
       <p class="date">{{booking.dateTimeStamp | date: "dd MMM yyyy hh:mm:ss z"}}</p>

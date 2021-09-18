@@ -9,6 +9,7 @@
   bottom: 0;
   background-color: rgba(0,0,0,0.5); 
   z-index: 2;
+  cursor: pointer;
 
   .content {
       display:flex;
@@ -17,6 +18,7 @@
       height: 90%;
       margin: auto;
       background: #fff;
+      cursor: auto;
 
       .row {
           display: flex;

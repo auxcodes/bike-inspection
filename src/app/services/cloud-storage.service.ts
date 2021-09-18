@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JsonStorage } from '../shared/interfaces/json-storage';
-import { FieldsService } from './fields.service';
 import { map, tap, take, exhaustMap } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,16 +14,15 @@ export class CloudStorageService {
 
   bookings: JsonStorage[] = [];
   storageSize = 10;
+  bookingHistory: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient,
-    private fieldService: FieldsService, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   canSync() {
     return this.authService.user;
   }
 
-  pushBooking() {
-    const booking = this.fieldService.updateStorage();
+  pushBooking(booking: JsonStorage) {
     this.bookings.push(booking);
     if (this.bookings.length > this.storageSize) {
       this.bookings.pop();

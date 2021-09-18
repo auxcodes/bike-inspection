@@ -25,14 +25,8 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
 
     if (this.canView) {
       this.bookingsSub = this.csService.pullBooking().subscribe(bookings => {
-        console.log('any bookings? ', bookings);
-
         if (bookings) {
-          console.log('bookings: ', bookings);
           this.bookings = bookings;
-        }
-        else {
-          console.log('no bookings');
         }
       });
     }
@@ -42,6 +36,10 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
     if (this.bookingsSub) {
       this.bookingsSub.unsubscribe();
     }
+  }
+
+  onClose() {
+    this.csService.bookingHistory.next(false);
   }
 
 }

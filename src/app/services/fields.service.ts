@@ -1,16 +1,17 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { JsonGroup } from '../shared/interfaces/json-group';
 import { LocalStorageService } from './local-storage.service';
 
 import * as fieldData from '../../assets/json/fields.json';
 import { JsonStorage } from '../shared/interfaces/json-storage';
+import { CloudStorageService } from './cloud-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FieldsService {
+export class FieldsService implements OnDestroy {
 
   storageKey = 'bike-assessment.aux.codes';
 
@@ -18,8 +19,16 @@ export class FieldsService {
   extraNotes: BehaviorSubject<string> = new BehaviorSubject<string>('');
   outputNotes: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  constructor(private storageService: LocalStorageService) {
+  private bookingsSubscription: Subscription;
+
+  constructor(private storageService: LocalStorageService, private csService: CloudStorageService) {
     this.resetFields();
+  }
+
+  ngOnDestroy() {
+    if (this.bookingsSubscription) {
+      this.bookingsSubscription.unsubscribe();
+    }
   }
 
   async checkStorage() {
@@ -28,6 +37,18 @@ export class FieldsService {
         this.fields.next(storage.fields);
         this.extraNotes.next(storage.extraNotes);
         this.outputNotes.next(storage.outputNotes);
+      }
+    });
+  }
+
+  checkCloudStorage() {
+    this.bookingsSubscription = this.csService.pullBooking().subscribe(bookings => {
+      if (bookings.length > 0) {
+        console.log('bookings: ', bookings);
+        const firstBooking = bookings[bookings.length - 1];
+        this.fields.next(firstBooking.fields);
+        this.extraNotes.next(firstBooking.extraNotes);
+        this.outputNotes.next(firstBooking.outputNotes);
       }
     });
   }

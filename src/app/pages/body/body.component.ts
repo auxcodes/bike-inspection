@@ -1,7 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
 
 import { CloudStorageService } from '../../services/cloud-storage.service';
 import { FieldsService } from '../../services/fields.service';
@@ -41,22 +40,13 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.showBookingNotes = false;
       this.mobileView = true;
     }
-
+    // load local storage
     this.fieldService.checkStorage().then(() => {
       this.subscribeToFields();
     });
-
+    // if user logged in check cloud storage
     if (this.csService.canSync().value) {
-      this.bookingsSub = this.csService.pullBooking().subscribe( bookings => {
-        console.log('any bookings? ', bookings);
-
-        if (bookings) {
-          console.log('bookings: ', bookings);
-        }
-        else {
-          console.log('no bookings');
-        }
-      });
+      this.fieldService.checkCloudStorage();
     }
   }
 
@@ -145,7 +135,8 @@ export class BodyComponent implements OnInit, OnDestroy {
 
   onSyncStorage() {
     if (this.csService.canSync()) {
-      this.csService.pushBooking();
+      const booking = this.fieldService.updateStorage();
+      this.csService.pushBooking(booking);
     }
     else {
       this.router.navigate(['auth']);

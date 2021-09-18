@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CloudStorageService } from './services/cloud-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  showBookingHistory = false;
 
+  constructor(private csService: CloudStorageService) {
+    csService.bookingHistory.subscribe(showHistory => {
+      this.showBookingHistory = showHistory;
+    });
+  }
 }
