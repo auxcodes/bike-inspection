@@ -7,7 +7,10 @@ $btn-active-color: #ddd;
 
   .container-section {
     margin: 0 auto;
-    padding-top: 10px;
+
+    .auth-header {
+      display: flex;
+    }
 
     .form-container {
       margin: 16px;
@@ -30,7 +33,10 @@ $btn-active-color: #ddd;
         display: grid;
         grid-template-columns: 1fr 1fr;
         padding: 16px 0 0 0;
-        ;
+
+        .btn-normal {
+          border-radius: 0;
+        }
 
         button {
           margin: 5px 10px;

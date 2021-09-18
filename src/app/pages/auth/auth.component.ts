@@ -22,6 +22,10 @@ export class AuthComponent {
     this.isLoginMode = !this.isLoginMode;
   }
 
+  onClose() {
+    this.router.navigate(['/inspect']);
+  }
+
   onSubmit(form: NgForm) {
     if (!form.valid) {
       return;
