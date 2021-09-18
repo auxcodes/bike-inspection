@@ -44,13 +44,19 @@ export class FieldsService implements OnDestroy {
   checkCloudStorage() {
     this.bookingsSubscription = this.csService.pullBooking().subscribe(bookings => {
       if (bookings.length > 0) {
-        console.log('bookings: ', bookings);
         const firstBooking = bookings[bookings.length - 1];
         this.fields.next(firstBooking.fields);
         this.extraNotes.next(firstBooking.extraNotes);
         this.outputNotes.next(firstBooking.outputNotes);
       }
     });
+  }
+
+  loadBooking(position: number) {
+    const booking = this.csService.booking(position);
+    this.fields.next(booking.fields);
+    this.extraNotes.next(booking.extraNotes);
+    this.outputNotes.next(booking.outputNotes);
   }
 
   clearStorage() {

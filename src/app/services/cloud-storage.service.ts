@@ -12,14 +12,20 @@ import { AuthService } from './auth.service';
 })
 export class CloudStorageService {
 
-  bookings: JsonStorage[] = [];
   storageSize = 10;
-  bookingHistory: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showBookingHistory: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  private bookings: JsonStorage[] = [];
+
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   canSync() {
     return this.authService.user;
+  }
+
+  booking(position: number) {
+    return this.bookings[position];
   }
 
   pushBooking(booking: JsonStorage) {
@@ -39,21 +45,17 @@ export class CloudStorageService {
   }
 
   pullBooking() {
-    console.log('pull bookings');
     return this.http
       .get<JsonStorage[]>(
         'https://bike-booker-default-rtdb.firebaseio.com/bookings.json'
       )
       .pipe(
         map(bookings => {
-          console.log('map bookings: ',bookings);
-
           return bookings.map(booking => {
             return booking;
           });
         }),
         tap(bookings => {
-          console.log('pull bookings: ', bookings);
           this.bookings = bookings;
         })
       );

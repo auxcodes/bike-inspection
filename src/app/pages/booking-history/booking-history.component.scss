@@ -2,40 +2,49 @@
   position: fixed;
   display: flex;
   width: 100%;
-  height: 100%; 
+  height: 100%;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5); 
+  background-color: rgba(0,0,0,0.5);
   z-index: 2;
   cursor: pointer;
 
   .content {
-      display:flex;
-      flex-direction: column;
-      width: 90%;
-      height: 90%;
-      margin: auto;
-      background: #fff;
-      cursor: auto;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    background: #fff;
+    cursor: auto;
 
-      .row {
-          display: flex;
-          border-bottom: 1px solid #d2d2d2;
-          margin: 0 16px 0 16px;
+    .profile-header {
+      display: flex;
+
+      .btn-normal {
+        border-radius: 0;
       }
+    }
 
-      .date {
-          margin-right: 16px
-      }
+    .row {
+      display: flex;
+      border-bottom: 1px solid #d2d2d2;
+      margin: 0 16px 0 16px;
+      cursor: pointer;
+    }
 
-      .notes{
-          margin-right: 16px;
-          width: 70%;
-          overflow: hidden;
-          white-space: nowrap;
-      }
+    .date {
+      margin-right: 16px;
+      white-space: nowrap;
+    }
 
+    .notes {
+      margin-right: 16px;
+      width: auto;
+      overflow: hidden;
+      white-space: nowrap;
+    }
   }
 }

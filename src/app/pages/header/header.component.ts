@@ -21,12 +21,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onProfile() {
-    this.csService.bookingHistory.next(true);
+    this.csService.showBookingHistory.next(true);
   }
 
   onLogout() {
     this.authService.logout();
-    this.csService.bookingHistory.next(false);
+    this.csService.showBookingHistory.next(false);
   }
 
   ngOnDestroy() {

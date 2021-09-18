@@ -10,7 +10,7 @@ export class AppComponent {
   showBookingHistory = false;
 
   constructor(private csService: CloudStorageService) {
-    csService.bookingHistory.subscribe(showHistory => {
+    csService.showBookingHistory.subscribe(showHistory => {
       this.showBookingHistory = showHistory;
     });
   }

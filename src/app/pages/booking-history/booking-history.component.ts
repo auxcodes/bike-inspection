@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 import { CloudStorageService } from '../../services/cloud-storage.service';
+import { FieldsService } from '../../services/fields.service';
 import { JsonStorage } from '../../shared/interfaces/json-storage';
 
 @Component({
@@ -14,7 +16,7 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
   canView = false;
   bookings: JsonStorage[] = [];
 
-  constructor(private csService: CloudStorageService) { }
+  constructor(private authService: AuthService, private csService: CloudStorageService, private fieldService: FieldsService) { }
 
   ngOnInit(): void {
     this.csService.canSync().subscribe(user => {
@@ -38,8 +40,19 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
+  onBookingSelect(eventTarget: any) {
+    this.fieldService.loadBooking(eventTarget.id);
+    this.onClose();
+  }
+
   onClose() {
-    this.csService.bookingHistory.next(false);
+    this.csService.showBookingHistory.next(false);
+  }
+
+  onLogout() {
+    this.authService.logout();
+    this.csService.showBookingHistory.next(false);
+    this.fieldService.checkStorage();
   }
 
 }
