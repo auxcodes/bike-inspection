@@ -18,7 +18,7 @@
               <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" (change)="onFieldSelected(i, $event.target)" />
               <span class="field">{{field?.text}}</span>
               <input type="text" class="field" [id]="field.id" [value]="field?.value" (change)="onFieldChange(i, $event.target)" />
-              <input type="number" class="field" [id]="field.name + '-cost'" value="0.00" (change)="onCostChange($event.target)" />
+              <input type="number" class="field" [id]="field.name + '-cost'" [value]="field?.cost ? field?.cost : '0.00'" (change)="onCostChange(i,   $event.target)" />
             </ng-container>
           </div>
         </ng-container>

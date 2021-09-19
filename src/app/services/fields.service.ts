@@ -18,6 +18,7 @@ export class FieldsService implements OnDestroy {
   fields: BehaviorSubject<JsonGroup[]> = new BehaviorSubject<JsonGroup[]>([]);
   extraNotes: BehaviorSubject<string> = new BehaviorSubject<string>('');
   outputNotes: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  totalCost: BehaviorSubject<number> = new BehaviorSubject<number>(0.00);
 
   private bookingsSubscription: Subscription;
 
@@ -76,6 +77,7 @@ export class FieldsService implements OnDestroy {
       'fields': this.fields.value,
       'extraNotes': this.extraNotes.value,
       'outputNotes': this.outputNotes.value,
+      'totalCost': this.totalCost.value
     }
     this.storageService.updateJSONEntry(this.storageKey, jsonEntry);
     return jsonEntry;

@@ -5,5 +5,6 @@ export interface JsonStorage {
   customer?: string;
   fields: JsonGroup[];
   extraNotes: string;
+  totalCost: number;
   outputNotes: string;
 }

@@ -77,7 +77,35 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.fieldsJson[groupId].fields[index].value = field.value;
       this.updateOutput();
     }
+  }
 
+  onCostChange(groupId: number, field: any) {
+    this.costUpdate(groupId, field);
+
+    this.fieldsJson.forEach(group => {
+      group.fields.forEach(field => {
+
+        const fieldCost = field.cost ? +field.cost : 0.00;
+        if (field.cost) {
+          this.totalCost = this.totalCost + fieldCost;
+        }
+        else {
+          field.cost = fieldCost;
+        }
+        console.log(field.cost, this.totalCost);
+      })
+    });
+    this.updateOutput();
+  }
+
+  private costUpdate(groupId: number, field: JsonField) {
+    const fieldId = '$' + field.id.split('-')[0];
+    const index = this.fieldsJson[groupId].fields.findIndex(jsonField => fieldId === jsonField.id);
+    const selected: boolean = this.fieldsJson[groupId].fields[index].selected;
+
+    if (selected) {
+      this.fieldsJson[groupId].fields[index].cost = field.value;
+    }
   }
 
   onFieldSelected(groupId: number, field: any) {
@@ -104,22 +132,6 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.updateOutput();
   }
 
-  onCostChange(field: any) {
-    const index = this.priceIndex(field.id);
-    this.totalCost = 0;
-    if (index === -1) {
-      this.prices.push({ id: field.id, cost: field.value === '' ? 0 : field.value });
-    }
-    else {
-      this.prices[index].cost = field.value;
-    }
-
-    this.prices.forEach(price => {
-      this.totalCost = this.totalCost + +price.cost;
-    });
-    this.updateOutput();
-  }
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
 
@@ -143,19 +155,13 @@ export class BodyComponent implements OnInit, OnDestroy {
     }
   }
 
-  private priceIndex(id: string) {
-    return this.prices.findIndex(cost => cost.id === id);
-  }
-
   private updateOutput() {
     this.output = this.notesTitle;
     this.fieldsJson.forEach(group => {
       let fieldsText = '';
       group.fields.forEach((field: JsonField) => {
         if (field.selected) {
-          const index = this.priceIndex(field.name + '-cost');
-          const cost = index > -1 ? this.prices[index].cost : 0;
-          fieldsText = fieldsText + ' \n - ' + field.text + ': ' + field.value + (cost > 0 && this.includeCost ? ' - $' + Number(cost).toFixed(2) : '') ;
+          fieldsText = fieldsText + ' \n - ' + field.text + ': ' + field.value + (field.cost > 0 && this.includeCost ? ' - $' + Number(field.cost).toFixed(2) : '');
         }
       });
       if (fieldsText) {
@@ -166,12 +172,14 @@ export class BodyComponent implements OnInit, OnDestroy {
     if (this.extraNotes !== '') {
       this.output = this.output + this.extraNotes;
     }
+    console.log(this.totalCost, this.includeCost);
     if (this.totalCost > 0 && this.includeCost) {
       this.output = this.output + '\n\n Total Cost: $' + this.totalCost.toFixed(2);
     }
     this.fieldService.fields.next(this.fieldsJson);
     this.fieldService.extraNotes.next(this.extraNotes);
     this.fieldService.outputNotes.next(this.output);
+    this.fieldService.totalCost.next(this.totalCost);
     this.fieldService.updateStorage();
   }
 
