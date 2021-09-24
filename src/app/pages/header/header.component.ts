@@ -20,6 +20,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+  }
+
   onProfile() {
     this.csService.showBookingHistory.next(true);
   }
@@ -29,7 +33,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.csService.showBookingHistory.next(false);
   }
 
-  ngOnDestroy() {
-    this.userSub.unsubscribe();
-  }
 }

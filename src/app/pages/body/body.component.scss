@@ -27,6 +27,13 @@ $btn-active-color: #ddd;
       display: flex;
     }
 
+    .date-time {
+        display: flex;
+        p {
+          margin: 5px 0 -25px auto;
+        }
+    }
+
     .fields {
       display: grid;
       grid-template-columns: min-content max-content auto 5em;

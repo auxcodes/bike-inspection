@@ -15,6 +15,7 @@ export class FieldsService implements OnDestroy {
 
   storageKey = 'bike-assessment.aux.codes';
 
+  lastUpdate: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   fields: BehaviorSubject<JsonGroup[]> = new BehaviorSubject<JsonGroup[]>([]);
   extraNotes: BehaviorSubject<string> = new BehaviorSubject<string>('');
   outputNotes: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -35,6 +36,7 @@ export class FieldsService implements OnDestroy {
   async checkStorage() {
     await this.storageService.readJSONEntry(this.storageKey).then(storage => {
       if (storage) {
+        this.lastUpdate.next(storage.dateTimeStamp);
         this.fields.next(storage.fields);
         this.extraNotes.next(storage.extraNotes);
         this.outputNotes.next(storage.outputNotes);
@@ -46,6 +48,7 @@ export class FieldsService implements OnDestroy {
     this.bookingsSubscription = this.csService.pullBooking().subscribe(bookings => {
       if (bookings.length > 0) {
         const firstBooking = bookings[bookings.length - 1];
+        this.lastUpdate.next(firstBooking.dateTimeStamp);
         this.fields.next(firstBooking.fields);
         this.extraNotes.next(firstBooking.extraNotes);
         this.outputNotes.next(firstBooking.outputNotes);
@@ -55,6 +58,8 @@ export class FieldsService implements OnDestroy {
 
   loadBooking(position: number) {
     const booking = this.csService.booking(position);
+   // console.log('load booking: ', position, booking);
+    this.lastUpdate.next(booking.dateTimeStamp);
     this.fields.next(booking.fields);
     this.extraNotes.next(booking.extraNotes);
     this.outputNotes.next(booking.outputNotes);
@@ -66,6 +71,7 @@ export class FieldsService implements OnDestroy {
   }
 
   private resetFields() {
+    this.lastUpdate.next(0);
     this.fields.next(fieldData.data);
     this.extraNotes.next('');
     this.outputNotes.next('');
@@ -73,7 +79,7 @@ export class FieldsService implements OnDestroy {
 
   updateStorage(): JsonStorage {
     const jsonEntry: JsonStorage = {
-      'dateTimeStamp': Date.now(),
+      'dateTimeStamp': this.lastUpdate.value,
       'fields': this.fields.value,
       'extraNotes': this.extraNotes.value,
       'outputNotes': this.outputNotes.value,

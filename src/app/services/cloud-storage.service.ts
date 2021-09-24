@@ -29,6 +29,10 @@ export class CloudStorageService {
   }
 
   pushBooking(booking: JsonStorage) {
+    if (!this.authService.user.value) {
+      return;
+    }
+
     this.bookings.push(booking);
     const userId = this.authService.user.value.id
     // limit size of history, 
@@ -61,7 +65,9 @@ export class CloudStorageService {
           });
         }),
         tap(bookings => {
-          this.bookings = bookings;
+          this.bookings = bookings.sort((b1, b2) => {
+            return b2.dateTimeStamp - b1.dateTimeStamp;
+          });
         })
       );
   }

@@ -4,9 +4,15 @@
       <div class="section-header fields-header">
         <h2 *ngIf="!mobileView">Inspection Notes</h2>
         <app-tab-header class="tab-header" *ngIf="mobileView" (bookingNotes)="onShowBookingNotes($event)"></app-tab-header>
-        <button (click)="onSyncStorage()">Sync</button>
+        <ng-container *ngIf="loggedIn">
+          <button class="btn-normal" (click)="onSyncStorage()">Save</button>
+          <button (click)="onLoadHistory()">Load</button>
+        </ng-container>
       </div>
       <ng-container *ngIf="(mobileView && !showBookingNotes) || !mobileView">
+        <div class="date-time" *ngIf="lastUpdated !== 0">
+          <p>{{ lastUpdated | date: "dd MMM yyyy hh:mm:ss" }}</p>
+        </div>
         <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
           <h3>{{group.groupLabel}}</h3>
           <div class="fields" id="{{i}}">
@@ -18,7 +24,7 @@
               <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" (change)="onFieldSelected(i, $event.target)" />
               <span class="field">{{field?.text}}</span>
               <input type="text" class="field" [id]="field.id" [value]="field?.value" (change)="onFieldChange(i, $event.target)" />
-              <input type="number" class="field" [id]="field.name + '-cost'" [value]="field?.cost ? field?.cost : '0.00'" (change)="onCostChange(i,   $event.target)" />
+              <input type="number" class="field" [id]="field.name + '-cost'" [value]="field?.cost ? field?.cost : '0.00'" (change)="onCostChange(i, $event.target)" />
             </ng-container>
           </div>
         </ng-container>

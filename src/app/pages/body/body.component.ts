@@ -25,7 +25,9 @@ export class BodyComponent implements OnInit, OnDestroy {
   showBookingNotes = true;
   mobileView = false;
 
-  fieldsJson: JsonGroup[] = []
+  lastUpdated = 0;
+  fieldsJson: JsonGroup[] = [];
+  loggedIn = false;
 
   private bookingsSub: Subscription;
   private includeCost = true;
@@ -45,9 +47,15 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.subscribeToFields();
     });
     // if user logged in check cloud storage
-    if (this.csService.canSync().value) {
-      this.fieldService.checkCloudStorage();
-    }
+    this.csService.canSync().subscribe(user => {
+      if (user) {
+        this.loggedIn = true;
+        this.fieldService.checkCloudStorage();
+      }
+      else {
+        this.loggedIn = false;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -57,6 +65,9 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToFields() {
+    this.fieldService.lastUpdate.subscribe(date => {
+      this.lastUpdated = date;
+    });
     this.fieldService.fields.subscribe(fields => {
       this.fieldsJson = fields;
     });
@@ -145,9 +156,19 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   onSyncStorage() {
-    if (this.csService.canSync()) {
+    if (this.csService.canSync() !== null) {
+      this.fieldService.lastUpdate.next(Date.now());
       const booking = this.fieldService.updateStorage();
       this.csService.pushBooking(booking);
+    }
+    else {
+      this.router.navigate(['auth']);
+    }
+  }
+
+  onLoadHistory() {
+    if (this.csService.canSync() !== null) {
+      this.csService.showBookingHistory.next(true);
     }
     else {
       this.router.navigate(['auth']);
@@ -174,6 +195,7 @@ export class BodyComponent implements OnInit, OnDestroy {
     if (this.totalCost > 0 && this.includeCost) {
       this.output = this.output + '\n\n Total Cost: $' + this.totalCost.toFixed(2);
     }
+    this.fieldService.lastUpdate.next(Date.now());
     this.fieldService.fields.next(this.fieldsJson);
     this.fieldService.extraNotes.next(this.extraNotes);
     this.fieldService.outputNotes.next(this.output);
