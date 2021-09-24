@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JsonStorage } from '../shared/interfaces/json-storage';
 import { map, tap, take, exhaustMap } from 'rxjs/operators';
@@ -30,28 +30,33 @@ export class CloudStorageService {
 
   pushBooking(booking: JsonStorage) {
     this.bookings.push(booking);
+    const userId = this.authService.user.value.id
+    // limit size of history, 
     if (this.bookings.length > this.storageSize) {
       this.bookings.pop();
     }
-    // limit size of history, 
     this.http
       .put(
-        'https://bike-booker-default-rtdb.firebaseio.com/bookings.json',
-        this.bookings
+        'https://bike-booker-default-rtdb.firebaseio.com/' + userId + '/bookings.json',
+          this.bookings
       )
       .subscribe(response => {
-        console.log(response);
+        //console.log(response);
       });
   }
 
   pullBooking() {
+    const user = this.authService.user.value
     return this.http
       .get<JsonStorage[]>(
-        'https://bike-booker-default-rtdb.firebaseio.com/bookings.json'
+        'https://bike-booker-default-rtdb.firebaseio.com/' + user.id + '/bookings.json',
+        {
+          params: new HttpParams().set('auth', user.token)
+        }
       )
       .pipe(
         map(bookings => {
-          return bookings.map(booking => {
+          return !bookings ? [] : bookings.map(booking => {
             return booking;
           });
         }),

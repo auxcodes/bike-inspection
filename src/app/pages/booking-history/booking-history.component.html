@@ -5,6 +5,7 @@
       <button class="btn-normal" (click)="onLogout()">Logout</button>
       <button (click)="onClose()">X</button>
     </div>
+    <p *ngIf="bookings.length <= 0">You have no saved bookings yet!</p>
     <a class="row" *ngFor="let booking of bookings; let i = index" [id]="i" (click)="onBookingSelect($event.target)">
       <p [id]="i" class ="date">{{booking.dateTimeStamp | date: "dd MMM yyyy hh:mm:ss"}}</p>
       <p [id]="i" class="notes">{{booking.outputNotes}}</p>

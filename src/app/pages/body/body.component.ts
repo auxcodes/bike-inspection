@@ -92,7 +92,6 @@ export class BodyComponent implements OnInit, OnDestroy {
         else {
           field.cost = fieldCost;
         }
-        console.log(field.cost, this.totalCost);
       })
     });
     this.updateOutput();
@@ -172,7 +171,6 @@ export class BodyComponent implements OnInit, OnDestroy {
     if (this.extraNotes !== '') {
       this.output = this.output + this.extraNotes;
     }
-    console.log(this.totalCost, this.includeCost);
     if (this.totalCost > 0 && this.includeCost) {
       this.output = this.output + '\n\n Total Cost: $' + this.totalCost.toFixed(2);
     }
