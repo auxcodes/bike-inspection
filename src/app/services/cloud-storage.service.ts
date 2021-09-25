@@ -29,6 +29,12 @@ export class CloudStorageService {
   }
 
   private addBooking(booking: JsonStorage) {
+    // limit size of history,
+    const bookingLength = this.bookings.length
+    if (bookingLength > this.storageSize) {
+      this.bookings.pop();
+    }
+
     const ref = booking.reference;
     const index = this.bookings.findIndex(bk => bk.reference === booking.reference);
     if (index === -1 || ref === '') {
@@ -45,10 +51,6 @@ export class CloudStorageService {
     }
     this.addBooking(booking);
     const userId = this.authService.user.value.id
-    // limit size of history, 
-    if (this.bookings.length > this.storageSize) {
-      this.bookings.pop();
-    }
     this.http
       .put(
         'https://bike-booker-default-rtdb.firebaseio.com/' + userId + '/bookings.json',

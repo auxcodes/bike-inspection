@@ -86,6 +86,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   onReferenceChange(referenceField: any) {
     this.reference = referenceField.value;
     this.commitChanges();
+    this.unsaved = true;
   }
 
   onFieldChange(groupId: number, field: any) {
@@ -133,7 +134,6 @@ export class BodyComponent implements OnInit, OnDestroy {
   onFieldSelected(groupId: number, field: any) {
     const index = this.fieldsJson[groupId].fields.findIndex(jsonField => field.id === jsonField.name);
     this.fieldsJson[groupId].fields[index].selected = field.checked;
-
     this.updateOutput();
   }
 
