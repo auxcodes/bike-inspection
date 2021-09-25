@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
 import { CloudStorageService } from './services/cloud-storage.service';
 
 @Component({
@@ -9,7 +10,9 @@ import { CloudStorageService } from './services/cloud-storage.service';
 export class AppComponent {
   showBookingHistory = false;
 
-  constructor(private csService: CloudStorageService) {
+  constructor(private csService: CloudStorageService, private authService: AuthService) {
+    authService.autoLogin();
+
     csService.showBookingHistory.subscribe(showHistory => {
       this.showBookingHistory = showHistory;
     });

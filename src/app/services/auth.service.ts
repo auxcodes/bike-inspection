@@ -18,6 +18,9 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  alreadyUser(): boolean{
+    return localStorage.getItem(this.dataName) ? true : false;
+  }
 
   signup(email: string, password: string) {
     return this.http
@@ -97,7 +100,7 @@ export class AuthService {
   logout() {
     this.user.next(null);
     this.router.navigate(['/']);
-    localStorage.removeItem(this.dataName);
+    localStorage.setItem(this.dataName, JSON.stringify({}));
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }

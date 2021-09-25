@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -11,12 +11,16 @@ import { AuthResponseData } from '../../shared/interfaces/auth-response-data';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit{
   isLoginMode = true;
   isLoading = false;
   error: string = null;
 
   constructor(private authService: AuthService, private router: Router) { }
+
+  ngOnInit() {
+    this.isLoginMode =  this.authService.alreadyUser();  
+  }
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;

@@ -11,6 +11,12 @@
       <div *ngIf="isLoading" style="text-align: center;">
         <app-loading-spinner></app-loading-spinner>
       </div>
+      <div *ngIf="!isLoginMode" class="sign-up">
+        <ul>
+          <li>Save your booking notes for later use.</li>
+          <li>Acces booking notes across mutiple devices.</li>
+        </ul>
+      </div>
       <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
         <div class="form-group">
           <label for="email">E-Mail</label>
@@ -33,13 +39,11 @@
                  minlength="6" />
         </div>
         <div class="btn-group">
-          <button class="btn-normal"
-                  type="submit"
-                  [disabled]="!authForm.valid">
-            {{ isLoginMode ? 'Login' : 'Sign Up' }}
-          </button>
-          <button (click)="onSwitchMode()" type="button">
+          <button class="btn-normal" (click)="onSwitchMode()" type="button">
             Switch to {{ isLoginMode ? 'Sign Up' : 'Login' }}
+          </button>
+          <button type="submit" [disabled]="!authForm.valid">
+            {{ isLoginMode ? 'Login' : 'Sign Up' }}
           </button>
         </div>
       </form>

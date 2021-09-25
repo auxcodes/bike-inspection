@@ -15,10 +15,24 @@ $btn-active-color: #ddd;
     .form-container {
       margin: 16px;
 
+      form {
+        margin: 10px 10px;
+      }
+
+      .sign-up {
+        padding: 0 20px;
+        border-bottom: 1px solid #d2d2d2;
+
+        ul {
+          padding-left: 20px;
+        }
+      }
+
       .form-group {
         display: grid;
         grid-template-columns: 1fr 2fr;
         padding: 5px;
+        margin: 0 10px;
       }
 
       .alert-danger {
