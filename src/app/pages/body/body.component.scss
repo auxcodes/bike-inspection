@@ -27,11 +27,20 @@ $btn-active-color: #ddd;
       display: flex;
     }
 
-    .date-time {
-        display: flex;
-        p {
-          margin: 5px 0 -25px auto;
-        }
+    .booking-reference {
+      display: flex;
+
+      .field {
+        margin: 5px 0 -25px auto;
+        border: 1px solid #d2d2d2;
+        padding: 2px 5px;
+        font-size: 1rem;
+      }
+
+      p {
+        margin: 5px 0 -25px 16px;
+        padding: 2px;
+      }
     }
 
     .fields {

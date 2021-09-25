@@ -2,7 +2,7 @@ import { JsonGroup } from "./json-group";
 
 export interface JsonStorage {
   dateTimeStamp: number;
-  customer?: string;
+  reference?: string;
   fields: JsonGroup[];
   extraNotes: string;
   totalCost: number;

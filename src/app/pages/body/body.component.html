@@ -10,7 +10,8 @@
         </ng-container>
       </div>
       <ng-container *ngIf="(mobileView && !showBookingNotes) || !mobileView">
-        <div class="date-time" *ngIf="lastUpdated !== 0">
+        <div class="booking-reference" *ngIf="lastUpdated !== 0">
+          <input type="text" class="field" [value]="reference ? reference : ''" (change)="onReferenceChange($event.target)" placeholder="Booking Reference"/>
           <p>{{ lastUpdated | date: "dd MMM yyyy hh:mm:ss" }}</p>
         </div>
         <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">

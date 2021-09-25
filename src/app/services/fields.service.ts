@@ -15,6 +15,7 @@ export class FieldsService implements OnDestroy {
 
   storageKey = 'bike-assessment.aux.codes';
 
+  bookingReference: BehaviorSubject<string> = new BehaviorSubject<string>('');
   lastUpdate: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   fields: BehaviorSubject<JsonGroup[]> = new BehaviorSubject<JsonGroup[]>([]);
   extraNotes: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -36,10 +37,7 @@ export class FieldsService implements OnDestroy {
   async checkStorage() {
     await this.storageService.readJSONEntry(this.storageKey).then(storage => {
       if (storage) {
-        this.lastUpdate.next(storage.dateTimeStamp);
-        this.fields.next(storage.fields);
-        this.extraNotes.next(storage.extraNotes);
-        this.outputNotes.next(storage.outputNotes);
+        this.updateFields(storage);
       }
     });
   }
@@ -48,21 +46,15 @@ export class FieldsService implements OnDestroy {
     this.bookingsSubscription = this.csService.pullBooking().subscribe(bookings => {
       if (bookings.length > 0) {
         const firstBooking = bookings[bookings.length - 1];
-        this.lastUpdate.next(firstBooking.dateTimeStamp);
-        this.fields.next(firstBooking.fields);
-        this.extraNotes.next(firstBooking.extraNotes);
-        this.outputNotes.next(firstBooking.outputNotes);
+        this.updateFields(firstBooking);
       }
     });
   }
 
   loadBooking(position: number) {
     const booking = this.csService.booking(position);
-   // console.log('load booking: ', position, booking);
-    this.lastUpdate.next(booking.dateTimeStamp);
-    this.fields.next(booking.fields);
-    this.extraNotes.next(booking.extraNotes);
-    this.outputNotes.next(booking.outputNotes);
+    // console.log('load booking: ', position, booking);
+    this.updateFields(booking);
   }
 
   clearStorage() {
@@ -70,8 +62,17 @@ export class FieldsService implements OnDestroy {
     this.resetFields();
   }
 
+  private updateFields(booking: JsonStorage) {
+    this.bookingReference.next(booking.reference);
+    this.lastUpdate.next(booking.dateTimeStamp);
+    this.fields.next(booking.fields);
+    this.extraNotes.next(booking.extraNotes);
+    this.outputNotes.next(booking.outputNotes);
+  }
+
   private resetFields() {
-    this.lastUpdate.next(0);
+    this.bookingReference.next('');
+    this.lastUpdate.next(Date.now());
     this.fields.next(fieldData.data);
     this.extraNotes.next('');
     this.outputNotes.next('');
@@ -79,6 +80,7 @@ export class FieldsService implements OnDestroy {
 
   updateStorage(): JsonStorage {
     const jsonEntry: JsonStorage = {
+      'reference': this.bookingReference.value,
       'dateTimeStamp': this.lastUpdate.value,
       'fields': this.fields.value,
       'extraNotes': this.extraNotes.value,

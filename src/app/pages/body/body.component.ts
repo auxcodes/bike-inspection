@@ -15,22 +15,22 @@ import { JsonGroup } from '../../shared/interfaces/json-group';
 export class BodyComponent implements OnInit, OnDestroy {
 
   title = 'bike-inspection';
-  output = '';
   notesTitle = 'Inspection:'
-  extraNotes = '';
-  totalCost = 0;
-  prices: { id: string; cost: number }[] = []
 
-  screenWidth = 1500;
   showBookingNotes = true;
   mobileView = false;
-
-  lastUpdated = 0;
-  fieldsJson: JsonGroup[] = [];
   loggedIn = false;
+
+  fieldsJson: JsonGroup[] = [];
+  reference = '';
+  lastUpdated = 0;
+  extraNotes = '';
+  output = '';
+  totalCost = 0;
 
   private bookingsSub: Subscription;
   private includeCost = true;
+  private screenWidth = 1500;
 
   constructor(private fieldService: FieldsService, private csService: CloudStorageService, private router: Router) {
 
@@ -65,6 +65,9 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToFields() {
+    this.fieldService.bookingReference.subscribe(ref => {
+      this.reference = ref;
+    });
     this.fieldService.lastUpdate.subscribe(date => {
       this.lastUpdated = date;
     });
@@ -79,6 +82,11 @@ export class BodyComponent implements OnInit, OnDestroy {
     });
   };
 
+  onReferenceChange(referenceField: any) {
+    this.reference = referenceField.value;
+    this.commitChanges();
+  }
+
   onFieldChange(groupId: number, field: any) {
     const index = this.fieldsJson[groupId].fields.findIndex(jsonField => field.id === jsonField.id);
     const selected: boolean = field.value;
@@ -92,7 +100,20 @@ export class BodyComponent implements OnInit, OnDestroy {
 
   onCostChange(groupId: number, field: any) {
     this.costUpdate(groupId, field);
+  }
 
+  private costUpdate(groupId: number, field: JsonField) {
+    const fieldId = '$' + field.id.split('-')[0];
+    const index = this.fieldsJson[groupId].fields.findIndex(jsonField => fieldId === jsonField.id);
+    const selected: boolean = this.fieldsJson[groupId].fields[index].selected;
+
+    if (selected) {
+      this.fieldsJson[groupId].fields[index].cost = field.value;
+      this.calculateCost();
+    }
+  }
+
+  private calculateCost() {
     this.fieldsJson.forEach(group => {
       group.fields.forEach(field => {
 
@@ -106,16 +127,6 @@ export class BodyComponent implements OnInit, OnDestroy {
       })
     });
     this.updateOutput();
-  }
-
-  private costUpdate(groupId: number, field: JsonField) {
-    const fieldId = '$' + field.id.split('-')[0];
-    const index = this.fieldsJson[groupId].fields.findIndex(jsonField => fieldId === jsonField.id);
-    const selected: boolean = this.fieldsJson[groupId].fields[index].selected;
-
-    if (selected) {
-      this.fieldsJson[groupId].fields[index].cost = field.value;
-    }
   }
 
   onFieldSelected(groupId: number, field: any) {
@@ -144,11 +155,9 @@ export class BodyComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-
     this.screenWidth = window.innerWidth;
     this.mobileView = this.screenWidth < 1000 ? true : false;
     this.showBookingNotes = false;
-
   }
 
   onShowBookingNotes(show: boolean) {
@@ -195,6 +204,11 @@ export class BodyComponent implements OnInit, OnDestroy {
     if (this.totalCost > 0 && this.includeCost) {
       this.output = this.output + '\n\n Total Cost: $' + this.totalCost.toFixed(2);
     }
+    this.commitChanges();
+  }
+
+  private commitChanges() {
+    this.fieldService.bookingReference.next(this.reference);
     this.fieldService.lastUpdate.next(Date.now());
     this.fieldService.fields.next(this.fieldsJson);
     this.fieldService.extraNotes.next(this.extraNotes);

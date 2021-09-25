@@ -28,12 +28,22 @@ export class CloudStorageService {
     return this.bookings[position];
   }
 
+  private addBooking(booking: JsonStorage) {
+    const ref = booking.reference;
+    const index = this.bookings.findIndex(bk => bk.reference === booking.reference);
+    if (index === -1 || ref === '') {
+      this.bookings.push(booking);
+    }
+    else {
+      this.bookings[index] = booking;
+    }
+  }
+
   pushBooking(booking: JsonStorage) {
     if (!this.authService.user.value) {
       return;
     }
-
-    this.bookings.push(booking);
+    this.addBooking(booking);
     const userId = this.authService.user.value.id
     // limit size of history, 
     if (this.bookings.length > this.storageSize) {
