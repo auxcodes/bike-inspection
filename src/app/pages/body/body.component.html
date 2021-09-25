@@ -5,14 +5,14 @@
         <h2 *ngIf="!mobileView">Inspection Notes</h2>
         <app-tab-header class="tab-header" *ngIf="mobileView" (bookingNotes)="onShowBookingNotes($event)"></app-tab-header>
         <ng-container *ngIf="loggedIn">
-          <button class="btn-normal" (click)="onSyncStorage()">Save</button>
+          <button class="btn-normal" [ngClass]="{'btn-unsaved' : unsaved}" (click)="onSyncStorage()">Save</button>
           <button (click)="onLoadHistory()">Load</button>
         </ng-container>
       </div>
       <ng-container *ngIf="(mobileView && !showBookingNotes) || !mobileView">
         <div class="booking-reference" *ngIf="lastUpdated !== 0">
-          <input type="text" class="field" [value]="reference ? reference : ''" (change)="onReferenceChange($event.target)" placeholder="Booking Reference"/>
-          <p>{{ lastUpdated | date: "dd MMM yyyy hh:mm:ss" }}</p>
+          <input [ngStyle]="!loggedIn ? {display: 'none'} : {}" type="text" class="field" [value]="reference ? reference : ''" (change)="onReferenceChange($event.target)" placeholder="Booking Reference"/>
+          <p [ngStyle]="!loggedIn ? {'margin-left': 'auto'} : {}" >{{ lastUpdated | date: "dd MMM yyyy hh:mm:ss" }}</p>
         </div>
         <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
           <h3>{{group.groupLabel}}</h3>

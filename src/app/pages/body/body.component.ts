@@ -20,6 +20,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   showBookingNotes = true;
   mobileView = false;
   loggedIn = false;
+  unsaved = false;
 
   fieldsJson: JsonGroup[] = [];
   reference = '';
@@ -169,6 +170,7 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.fieldService.lastUpdate.next(Date.now());
       const booking = this.fieldService.updateStorage();
       this.csService.pushBooking(booking);
+      this.unsaved = false;
     }
     else {
       this.router.navigate(['auth']);
@@ -215,6 +217,7 @@ export class BodyComponent implements OnInit, OnDestroy {
     this.fieldService.outputNotes.next(this.output);
     this.fieldService.totalCost.next(this.totalCost);
     this.fieldService.updateStorage();
+    this.unsaved = true;
   }
 
 }

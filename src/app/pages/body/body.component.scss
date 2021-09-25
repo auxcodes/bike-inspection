@@ -25,6 +25,10 @@ $btn-active-color: #ddd;
 
     .fields-header {
       display: flex;
+
+      .btn-unsaved {
+        background-color: #ff984e;
+      }
     }
 
     .booking-reference {
