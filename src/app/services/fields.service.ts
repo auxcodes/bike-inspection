@@ -43,12 +43,7 @@ export class FieldsService implements OnDestroy {
   }
 
   checkCloudStorage() {
-    this.bookingsSubscription = this.csService.pullBooking().subscribe(bookings => {
-      if (bookings.length > 0) {
-        const firstBooking = bookings[bookings.length - 1];
-        this.updateFields(firstBooking);
-      }
-    });
+    this.csService.pullBooking();
   }
 
   loadBooking(position: number) {
