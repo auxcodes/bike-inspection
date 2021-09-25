@@ -28,9 +28,9 @@ export class BodyComponent implements OnInit, OnDestroy {
   extraNotes = '';
   output = '';
   totalCost = 0;
+  includeCost = true;
 
   private bookingsSub: Subscription;
-  private includeCost = true;
   private screenWidth = 1500;
 
   constructor(private fieldService: FieldsService, private csService: CloudStorageService, private router: Router) {
@@ -151,6 +151,9 @@ export class BodyComponent implements OnInit, OnDestroy {
 
   onToggleCost(event: boolean) {
     this.includeCost = event;
+    if (this.includeCost) {
+      this.calculateCost();
+    }
     this.updateOutput();
   }
 
@@ -204,7 +207,7 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.output = this.output + this.extraNotes;
     }
     if (this.totalCost > 0 && this.includeCost) {
-      this.output = this.output + '\n\n Total Cost: $' + this.totalCost.toFixed(2);
+      this.output = this.output + '\n\n' + 'Total Cost: $' + this.totalCost.toFixed(2);
     }
     this.commitChanges();
   }

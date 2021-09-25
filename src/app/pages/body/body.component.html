@@ -11,8 +11,8 @@
       </div>
       <ng-container *ngIf="(mobileView && !showBookingNotes) || !mobileView">
         <div class="booking-reference" *ngIf="lastUpdated !== 0">
-          <input [ngStyle]="!loggedIn ? {display: 'none'} : {}" type="text" class="field" [value]="reference ? reference : ''" (change)="onReferenceChange($event.target)" placeholder="Booking Reference"/>
-          <p [ngStyle]="!loggedIn ? {'margin-left': 'auto'} : {}" >{{ lastUpdated | date: "dd MMM yyyy hh:mm:ss" }}</p>
+          <input [ngStyle]="!loggedIn ? {display: 'none'} : {}" type="text" class="field" [value]="reference ? reference : ''" (change)="onReferenceChange($event.target)" placeholder="Booking Reference" />
+          <p [ngStyle]="!loggedIn ? {'margin-left': 'auto'} : {}">{{ lastUpdated | date: "dd MMM yyyy hh:mm:ss" }}</p>
         </div>
         <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
           <h3>{{group.groupLabel}}</h3>
@@ -34,9 +34,12 @@
           <textarea class="text-area" (change)="onOtherNotes($event.target)"></textarea>
         </div>
       </ng-container>
-      <div *ngIf="mobileView && showBookingNotes" class="fields" id="output">
-        <textarea class="booking-text-area" [value]="output"></textarea>
-      </div>
+      <ng-container *ngIf="mobileView && showBookingNotes">
+        <div class="fields" id="output">
+          <textarea class="booking-text-area" [value]="output"></textarea>
+        </div>
+        <button class="cost-button"(click)="onToggleCost(!includeCost)">{{includeCost ? 'Hide' : 'Show' }} Cost</button>
+      </ng-container>
     </section>
     <app-booking-notes *ngIf="!mobileView" class="booking-notes" [notesInput]="output" (showCosts)="onToggleCost($event)"></app-booking-notes>
   </div>
