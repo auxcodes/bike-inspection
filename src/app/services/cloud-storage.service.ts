@@ -15,7 +15,9 @@ export class CloudStorageService {
   storageSize = 10;
   showBookingHistory: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private bookings: JsonStorage[] = [];
+  // Make this a BehaviouSubject, so body and bookings can access it
+  bookingHistory: BehaviorSubject<JsonStorage[]> = new BehaviorSubject<JsonStorage[]>([]);
+  private bookings: JsonStorage[] = []
 
 
   constructor(private http: HttpClient, private authService: AuthService) { }
@@ -43,6 +45,7 @@ export class CloudStorageService {
     else {
       this.bookings[index] = booking;
     }
+    this.bookingHistory.next(this.bookings);
   }
 
   pushBooking(booking: JsonStorage) {
@@ -62,7 +65,7 @@ export class CloudStorageService {
   }
 
   pullBooking() {
-    const user = this.authService.user.value
+    const user = this.authService.user.value;
     return this.http
       .get<JsonStorage[]>(
         'https://bike-booker-default-rtdb.firebaseio.com/' + user.id + '/bookings.json',
@@ -80,6 +83,7 @@ export class CloudStorageService {
           this.bookings = bookings.sort((b1, b2) => {
             return b2.dateTimeStamp - b1.dateTimeStamp;
           });
+          this.bookingHistory.next(this.bookings);
         })
       );
   }

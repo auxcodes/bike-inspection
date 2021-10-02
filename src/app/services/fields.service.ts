@@ -43,12 +43,11 @@ export class FieldsService implements OnDestroy {
   }
 
   checkCloudStorage() {
-    this.csService.pullBooking();
+    this.bookingsSubscription = this.csService.pullBooking().subscribe();
   }
 
   loadBooking(position: number) {
     const booking = this.csService.booking(position);
-    // console.log('load booking: ', position, booking);
     this.updateFields(booking);
   }
 

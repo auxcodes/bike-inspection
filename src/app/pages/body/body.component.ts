@@ -30,8 +30,8 @@ export class BodyComponent implements OnInit, OnDestroy {
   totalCost = 0;
   includeCost = true;
 
-  private bookingsSub: Subscription;
   private screenWidth = 1500;
+  private canSyncSub: Subscription;
 
   constructor(private fieldService: FieldsService, private csService: CloudStorageService, private router: Router) {
 
@@ -48,8 +48,8 @@ export class BodyComponent implements OnInit, OnDestroy {
       this.subscribeToFields();
     });
     // if user logged in check cloud storage
-    this.csService.canSync().subscribe(user => {
-      if (user) {
+    this.canSyncSub = this.csService.canSync().subscribe(user => {
+      if (user && !this.loggedIn) {
         this.loggedIn = true;
         this.fieldService.checkCloudStorage();
       }
@@ -60,8 +60,8 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.bookingsSub) {
-      this.bookingsSub.unsubscribe();
+    if (this.canSyncSub) {
+      this.canSyncSub.unsubscribe();
     }
   }
 
@@ -169,7 +169,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   onSyncStorage() {
-    if (this.csService.canSync() !== null) {
+    if (this.loggedIn) {
       this.fieldService.lastUpdate.next(Date.now());
       const booking = this.fieldService.updateStorage();
       this.csService.pushBooking(booking);
@@ -181,7 +181,7 @@ export class BodyComponent implements OnInit, OnDestroy {
   }
 
   onLoadHistory() {
-    if (this.csService.canSync() !== null) {
+    if (this.loggedIn) {
       this.csService.showBookingHistory.next(true);
     }
     else {

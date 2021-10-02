@@ -25,13 +25,11 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    if (this.canView) {
-      this.bookingsSub = this.csService.pullBooking().subscribe(bookings => {
-        if (bookings) {
-          this.bookings = bookings;
-        }
-      });
-    }
+    this.loadHistory();
+
+    this.csService.bookingHistory.subscribe(bookings => {
+      this.bookings = bookings;
+    });
   }
 
   ngOnDestroy() {
@@ -45,6 +43,10 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
     this.onClose();
   }
 
+  onRefresh() {
+    this.loadHistory();
+  }
+
   onClose() {
     this.csService.showBookingHistory.next(false);
   }
@@ -53,6 +55,12 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
     this.authService.logout();
     this.csService.showBookingHistory.next(false);
     this.fieldService.checkStorage();
+  }
+
+  private loadHistory() {
+    if (this.canView) {
+      this.csService.pullBooking();
+    }
   }
 
 }
