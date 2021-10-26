@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { CloudStorageService } from '../../services/cloud-storage.service';
@@ -16,7 +17,11 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
   canView = false;
   bookings: JsonStorage[] = [];
 
-  constructor(private authService: AuthService, private csService: CloudStorageService, private fieldService: FieldsService) { }
+  constructor(
+    private authService: AuthService,
+    private csService: CloudStorageService,
+    private fieldService: FieldsService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.csService.canSync().subscribe(user => {
@@ -45,6 +50,11 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
 
   onRefresh() {
     this.loadHistory();
+  }
+
+  onEditor() {
+    this.router.navigate(['/editor']);
+    this.onClose();
   }
 
   onClose() {
