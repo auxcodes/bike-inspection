@@ -59,7 +59,7 @@ export class BookingHistoryComponent implements OnInit, OnDestroy {
 
   private loadHistory() {
     if (this.canView) {
-      this.csService.pullBooking();
+      this.fieldService.checkCloudStorage();
     }
   }
 
