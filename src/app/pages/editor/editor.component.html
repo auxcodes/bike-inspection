@@ -1,1 +1,24 @@
-<p>editor works!</p>
+<section class="content">
+  <div class="section-container">
+    <section class="field-section container-section">
+      <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldGroups; let i = index">
+        <div class="group">
+          <h3>{{group.groupLabel}}</h3>
+          <input class="edit-cb" type="checkbox" />
+        </div>
+        <div class="fields" id="{{i}}">
+          <span class="title title-text">Move</span>
+          <span class="title title-text">Displayed Text</span>
+          <span class="title title-text">Default Note Text</span>
+          <span class="title title-text">Edit</span>
+          <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
+            <input class="move-cb" type="checkbox"/>
+            <input class="field" [value]="field?.text" [disabled]="field.name">
+            <input type="text" class="field" [id]="field.id" [value]="field?.value" [disabled]="field.name"/>
+            <input class="edit-cb" type="checkbox" [(ngModel)]="field.name"/>
+          </ng-container>
+        </div>
+      </ng-container>
+    </section>
+    </div>
+  </section>

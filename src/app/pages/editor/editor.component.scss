@@ -1,0 +1,85 @@
+$btn-color: #fff;
+$btn-hover-color: #eee;
+$btn-active-color: #ddd;
+
+.content {
+  //display: flex;
+  margin-top: 0;
+
+  .section-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tab-header {
+    width: 100%;
+  }
+
+  .field-section {
+    margin-left: 10px;
+    margin-right: 10px;
+    grid-column: span 2;
+
+    .fields-header {
+      display: flex;
+
+      .btn-unsaved {
+        background-color: #ff984e;
+      }
+    }
+
+    .group {
+      display: grid;
+      grid-template-columns: 0.5fr max-content;
+      width: 98%;
+    }
+
+    .edit-cb {
+      min-height: 1.8em;
+      min-width: 1.8em;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: max-content 1fr 1fr max-content;
+      width: 98%;
+      margin: 16px auto 16px auto;
+
+      .title {
+        border-bottom: 1px solid #666666;
+      }
+
+      .title-text {
+        margin: 2px;
+        text-align: center;
+      }
+
+      .move-cb {
+        //margin: auto;
+      }
+
+      .field {
+        padding: 3px 5px;
+        margin: 2px;
+      }
+
+      .id {
+        font-family: Consolas;
+      }
+
+      .text-area {
+        grid-column: 1/-1;
+        resize: vertical;
+        overflow-x: auto;
+      }
+
+      .booking-text-area {
+        grid-column: 1/-1;
+        min-height: 250px;
+        white-space: pre;
+        resize: vertical;
+        overflow-x: auto;
+      }
+    }
+  }
+}
