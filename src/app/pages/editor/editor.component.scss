@@ -32,6 +32,19 @@ $btn-active-color: #ddd;
       display: grid;
       grid-template-columns: 0.5fr max-content;
       width: 98%;
+
+      .group-field {
+        margin: 1em 0 0 0;
+        height: 1.6em;
+        font-size: 1.3rem;
+      }
+
+      .delete-btn {
+        height: 2.3em;
+        width: max-content;
+        margin: auto 1.8em 0 1.8em;
+        font-size: 1rem;
+      }
     }
 
     .edit-cb {
@@ -79,6 +92,30 @@ $btn-active-color: #ddd;
         white-space: pre;
         resize: vertical;
         overflow-x: auto;
+      }
+
+      .delete-btn {
+        height: 1.8em;
+        width: 1.8em;
+        margin: auto;
+      }
+
+      .add-field {
+        grid-column: 1 / span 4;
+        display: grid;
+        grid-template-columns: max-content 1fr 1fr max-content;
+        padding-top: 5px;
+        margin-top: 5px;
+        border-top: 3px dashed #ccc;
+
+        .filler {
+          min-height: 1.8em;
+          min-width: 2.5em;
+        }
+
+        .add-btn {
+          margin: 0 0.5em;
+        }
       }
     }
   }

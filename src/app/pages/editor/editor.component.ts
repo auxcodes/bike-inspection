@@ -11,7 +11,8 @@ import { JsonGroup } from '../../shared/interfaces/json-group';
 export class EditorComponent implements OnInit {
 
   fieldGroups: JsonGroup[] = [];
-  fields: JsonField[] = [];
+  editedGroups: JsonGroup[] = [];
+  editMode = false;
 
   constructor(private fieldService: FieldsService) { }
 
@@ -21,8 +22,26 @@ export class EditorComponent implements OnInit {
     });
   }
 
-  onAddField() {
+  onToggleEdit() {
+    this.editMode = !this.editMode;
+  }
 
+  onAddField(event: any, groupId: number) {
+
+    const id: string = event.target[0].value;
+    const fieldId = "$" + id.replace(/\s+/g, '');
+    const fieldName = event.target[0].value;
+    const fieldText = event.target[1].value;
+
+    const newField: JsonField = {
+      id: fieldId,
+      name: fieldName,
+      selected: false,
+      text: fieldText
+    };
+
+    this.addField(groupId, newField);
+    
   }
 
   onAddGroup() {
@@ -42,6 +61,7 @@ export class EditorComponent implements OnInit {
   }
 
   onSaveChanges() {
+    this.onToggleEdit();
     // backup last version
       // check history to see if there is any reference to version
 
@@ -49,4 +69,12 @@ export class EditorComponent implements OnInit {
 
   }
 
+  private addField(groupId: number, field: JsonField) {
+
+    if (this.editedGroups.length === 0) {
+      this.editedGroups = JSON.parse(JSON.stringify(this.fieldGroups));
+    }
+
+    this.editedGroups[groupId].fields.push(field);
+  }
 }

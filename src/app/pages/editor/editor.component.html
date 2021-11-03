@@ -1,24 +1,37 @@
 <section class="content">
   <div class="section-container">
     <section class="field-section container-section">
+      <div class="section-header fields-header">
+        <h2>Interface Editor</h2>
+        <button class="btn-normal" (click)="onToggleEdit()">{{ !editMode ? "Edit" : "Cancel"}}</button>
+        <button *ngIf="editMode" class="btn-normal" (click)="onSaveChanges()">Save</button>
+        <button>Add Group</button>
+      </div>
       <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldGroups; let i = index">
         <div class="group">
-          <h3>{{group.groupLabel}}</h3>
-          <input class="edit-cb" type="checkbox" />
+          <h3 *ngIf="!editMode">{{group.groupLabel}}</h3>
+          <input *ngIf="editMode" class="group-field" [value]="group.groupLabel" />
+          <button *ngIf="editMode" class="delete-btn">Delete Group</button>
         </div>
         <div class="fields" id="{{i}}">
           <span class="title title-text">Move</span>
           <span class="title title-text">Displayed Text</span>
           <span class="title title-text">Default Note Text</span>
-          <span class="title title-text">Edit</span>
+          <span class="title title-text">Delete</span>
           <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
-            <input class="move-cb" type="checkbox"/>
-            <input class="field" [value]="field?.text" [disabled]="field.name">
-            <input type="text" class="field" [id]="field.id" [value]="field?.value" [disabled]="field.name"/>
-            <input class="edit-cb" type="checkbox" [(ngModel)]="field.name"/>
+            <input class="move-cb" type="checkbox" />
+            <input class="field" [value]="field?.text" [disabled]="!editMode">
+            <input type="text" class="field" [id]="field.id" [value]="field?.value" [disabled]="!editMode" />
+            <button class="delete-btn" [disabled]="!editMode">X</button>
           </ng-container>
+          <form class="add-field" (ngSubmit)="onAddField($event, i)">
+            <span class="filler"></span>
+            <input class="field" [id]="i + '$name'" [disabled]="!editMode">
+            <input type="text" class="field" [id]="i + '$text'" [disabled]="!editMode" />
+            <button type="submit" class="add-btn" [disabled]="!editMode">Add</button>
+          </form>
         </div>
       </ng-container>
     </section>
-    </div>
-  </section>
+  </div>
+</section>
