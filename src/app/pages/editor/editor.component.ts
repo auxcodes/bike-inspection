@@ -72,20 +72,24 @@ export class EditorComponent implements OnInit {
     this.fieldGroups[field.groupIndex].fields[field.fieldIndex] = field.field;
   }
 
-  private fieldIndex(fieldId: string, groupId: number){
+  private fieldIndex(fieldId: string, groupId: number) {
     return this.fieldGroups[groupId].fields.findIndex(field => field.id === fieldId)
   }
 
   onAddGroup() {
-
+    this.fieldGroups.push(
+      {
+        groupId: "newGroup",
+        groupLabel: "New Group",
+        fields: []
+      }
+    );
+    this.editMode = true;
+    // SCROLL TO NEW GROUP
   }
 
-  onRemoveField() {
-
-  }
-
-  onRemoveGroup() {
-
+  onDeleteGroup(groupId: number) {
+    this.fieldGroups.splice(groupId, 1);
   }
 
   onToggleExtraNotes() {

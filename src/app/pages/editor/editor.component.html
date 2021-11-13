@@ -5,13 +5,13 @@
         <h2>Interface Editor</h2>
         <button class="btn-normal" (click)="onToggleEdit()">{{ !editMode ? "Edit" : "Cancel"}}</button>
         <button *ngIf="editMode" class="btn-normal" (click)="onSaveChanges()">Save</button>
-        <button>Add Group</button>
+        <button (click)="onAddGroup()">Add Group</button>
       </div>
       <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldGroups; let i = index">
         <div class="group">
           <h3 *ngIf="!editMode">{{group.groupLabel}}</h3>
           <input *ngIf="editMode" class="group-field" [value]="group.groupLabel" />
-          <button *ngIf="editMode" class="delete-btn">Delete Group</button>
+          <button *ngIf="editMode" class="delete-btn" (click)="onDeleteGroup(i)">Delete Group</button>
         </div>
         <div class="fields" id="{{i}}">
           <span class="title title-text">Move</span>
