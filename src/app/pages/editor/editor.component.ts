@@ -13,7 +13,7 @@ export class EditorComponent implements OnInit {
   fieldGroups: JsonGroup[] = [];
   backupGroups: JsonGroup[] = [];
   editMode = false;
-  editingField: { groupIndex: number; fieldIndex: number; field: JsonField} = null;
+  editingField: { groupIndex: number; fieldIndex: number; field: JsonField } = null;
 
   constructor(private fieldService: FieldsService) { }
 
@@ -32,7 +32,6 @@ export class EditorComponent implements OnInit {
   }
 
   onAddField(event: any, groupId: number) {
-
     const id: string = event.target[0].value;
     const fieldId = "$" + id.replace(/\s+/g, '');
     const fieldName: string = event.target[0].value;
@@ -46,7 +45,12 @@ export class EditorComponent implements OnInit {
       value: fieldText
     };
 
-    this.addField(groupId, newField);   
+    this.addField(groupId, newField);
+  }
+
+  onDeleteField(fieldId: string, groupId: number) {
+    const fieldIndex = this.fieldIndex(fieldId, groupId);
+    this.fieldGroups[groupId].fields.splice(fieldIndex, 1);
   }
 
   onFieldChange(event: any, groupId: number) {
@@ -54,7 +58,7 @@ export class EditorComponent implements OnInit {
     if (this.editingField === null || this.editingField.field.id !== id) {
       this.editingField = {
         groupIndex: groupId,
-        fieldIndex: this.fieldGroups[groupId].fields.findIndex(field => field.id === event.target.id),
+        fieldIndex: this.fieldIndex(event.target.id, groupId),
         field: this.fieldGroups[groupId].fields.find(field => field.id === event.target.id)
       }
       this.updateField(this.editingField);
@@ -66,6 +70,10 @@ export class EditorComponent implements OnInit {
 
   private updateField(field: any) {
     this.fieldGroups[field.groupIndex].fields[field.fieldIndex] = field.field;
+  }
+
+  private fieldIndex(fieldId: string, groupId: number){
+    return this.fieldGroups[groupId].fields.findIndex(field => field.id === fieldId)
   }
 
   onAddGroup() {
@@ -87,7 +95,7 @@ export class EditorComponent implements OnInit {
   onSaveChanges() {
     this.onToggleEdit();
     // backup last version
-      // check history to see if there is any reference to version
+    // check history to see if there is any reference to version
 
     // save new version locally and in the cloud
 

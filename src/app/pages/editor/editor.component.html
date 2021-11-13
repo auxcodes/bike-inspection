@@ -22,7 +22,7 @@
             <input class="move-cb" type="checkbox" />
             <input class="field" [id]="field?.id" [value]="field?.text" [disabled]="!editMode" (change)="onFieldChange($event, i)">
             <input type="text" class="field" [id]="field?.id" [value]="field?.value" [disabled]="!editMode" (change)="onFieldChange($event, i)"/>
-            <button class="delete-btn" [disabled]="!editMode">X</button>
+            <button class="delete-btn" [disabled]="!editMode" (click)="onDeleteField(field?.id, i)">X</button>
           </ng-container>
           <form class="add-field" (ngSubmit)="onAddField($event, i)">
             <span class="filler"></span>
