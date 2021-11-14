@@ -24,8 +24,12 @@ export class EditorComponent implements OnInit, AfterViewChecked {
     });
 
     if (this.fieldGroups.length === 0) {
-      this.fieldGroups = JSON.parse(JSON.stringify(this.backupGroups));
+      this.fieldGroups = this.deepCopy(this.backupGroups);
     }
+  }
+
+  private deepCopy(toCopyFrom: JsonGroup[]) {
+    return JSON.parse(JSON.stringify(toCopyFrom));
   }
 
   ngAfterViewChecked() {
@@ -37,6 +41,9 @@ export class EditorComponent implements OnInit, AfterViewChecked {
 
   onToggleEdit() {
     this.editMode = !this.editMode;
+    if (this.fieldGroups.length === 0) {
+      this.fieldGroups = this.deepCopy(this.backupGroups);
+    }
   }
 
   onAddField(event: any, groupId: number) {
@@ -97,6 +104,12 @@ export class EditorComponent implements OnInit, AfterViewChecked {
     // After group is added AfterViewIsChecked will scroll to end of page
   }
 
+  onGroupChange(event: any, groupId: number) {
+    this.fieldGroups[groupId].groupLabel = event.target.value;
+    const id = event.target.value.replace(/\s+/g, '')
+    this.fieldGroups[groupId].groupId = id;
+  }
+
   private scrollToEnd() {
     const pageHeight = document.getElementById('header').scrollHeight + document.getElementById('editorSection').scrollHeight + document.getElementById('footer').scrollHeight;
     window.scroll(0, pageHeight);
@@ -119,8 +132,12 @@ export class EditorComponent implements OnInit, AfterViewChecked {
 
   }
 
-  private addField(groupId: number, field: JsonField) {
+  onCancelEdit() {
+    this.fieldGroups = this.deepCopy(this.backupGroups);
+    this.onToggleEdit();
+  }
 
+  private addField(groupId: number, field: JsonField) {
     this.fieldGroups[groupId].fields.push(field);
   }
 }

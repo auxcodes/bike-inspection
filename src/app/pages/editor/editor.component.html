@@ -3,16 +3,17 @@
     <section class="field-section container-section">
       <div class="section-header fields-header">
         <h2>Interface Editor</h2>
-        <button class="btn-normal" (click)="onToggleEdit()">{{ !editMode ? "Edit" : "Cancel"}}</button>
-        <button *ngIf="editMode" class="btn-normal" (click)="onSaveChanges()">Save</button>
-        <button (click)="onAddGroup()">Add Group</button>
+        <button *ngIf="!editMode" class="btn-normal btn-positive" (click)="onToggleEdit()">Edit</button>
+        <button *ngIf="editMode" class="btn-normal btn-caution" (click)="onCancelEdit()">Undo All</button>
+        <button *ngIf="editMode" class="btn-normal btn-positive" (click)="onSaveChanges()">Save</button>
+        <button class="btn-action" (click)="onAddGroup()">Add Group</button>
       </div>
       <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldGroups; let i = index">
         <div class="group">
           <h3 *ngIf="!editMode">{{group.groupLabel}}</h3>
           <input *ngIf="editMode" class="group-field" [value]="group.groupLabel"
-            [ngClass]="group.groupId === '$newGroup' ? 'alert' : ''" />
-          <button *ngIf="editMode" class="delete-btn" (click)="onDeleteGroup(i)">Delete Group</button>
+            [ngClass]="group.groupId === '$newGroup' ? 'alert' : ''" (change)="onGroupChange($event, i)" />
+          <button *ngIf="editMode" class="delete-btn btn-caution" (click)="onDeleteGroup(i)">Delete Group</button>
         </div>
         <div class="fields" id="{{i}}">
           <span class="title title-text">Move</span>
@@ -25,13 +26,14 @@
               (change)="onFieldChange($event, i)">
             <input type="text" class="field" [id]="field?.id" [value]="field?.value" [disabled]="!editMode"
               (change)="onFieldChange($event, i)" />
-            <button class="delete-btn" [disabled]="!editMode" (click)="onDeleteField(field?.id, i)">X</button>
+            <button class="delete-btn btn-caution" [disabled]="!editMode"
+              (click)="onDeleteField(field?.id, i)">X</button>
           </ng-container>
           <form class="add-field" (ngSubmit)="onAddField($event, i)">
             <span class="filler"></span>
             <input class="field" [id]="i + '$name'" [disabled]="!editMode">
             <input type="text" class="field" [id]="i + '$text'" [disabled]="!editMode" />
-            <button type="submit" class="add-btn" [disabled]="!editMode">Add</button>
+            <button type="submit" class="add-btn btn-action" [disabled]="!editMode">Add</button>
           </form>
         </div>
       </ng-container>
