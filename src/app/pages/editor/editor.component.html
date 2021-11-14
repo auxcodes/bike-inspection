@@ -1,4 +1,4 @@
-<section class="content">
+<section id="editorSection" class="content">
   <div class="section-container">
     <section class="field-section container-section">
       <div class="section-header fields-header">
@@ -10,7 +10,8 @@
       <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldGroups; let i = index">
         <div class="group">
           <h3 *ngIf="!editMode">{{group.groupLabel}}</h3>
-          <input *ngIf="editMode" class="group-field" [value]="group.groupLabel" />
+          <input *ngIf="editMode" class="group-field" [value]="group.groupLabel"
+            [ngClass]="group.groupId === '$newGroup' ? 'alert' : ''" />
           <button *ngIf="editMode" class="delete-btn" (click)="onDeleteGroup(i)">Delete Group</button>
         </div>
         <div class="fields" id="{{i}}">
@@ -20,8 +21,10 @@
           <span class="title title-text">Delete</span>
           <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
             <input class="move-cb" type="checkbox" />
-            <input class="field" [id]="field?.id" [value]="field?.text" [disabled]="!editMode" (change)="onFieldChange($event, i)">
-            <input type="text" class="field" [id]="field?.id" [value]="field?.value" [disabled]="!editMode" (change)="onFieldChange($event, i)"/>
+            <input class="field" [id]="field?.id" [value]="field?.text" [disabled]="!editMode"
+              (change)="onFieldChange($event, i)">
+            <input type="text" class="field" [id]="field?.id" [value]="field?.value" [disabled]="!editMode"
+              (change)="onFieldChange($event, i)" />
             <button class="delete-btn" [disabled]="!editMode" (click)="onDeleteField(field?.id, i)">X</button>
           </ng-container>
           <form class="add-field" (ngSubmit)="onAddField($event, i)">

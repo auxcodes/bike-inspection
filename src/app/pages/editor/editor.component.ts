@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnChanges, OnInit } from '@angular/core';
 import { FieldsService } from '../../services/fields.service';
 import { JsonField } from '../../shared/interfaces/json-field';
 import { JsonGroup } from '../../shared/interfaces/json-group';
@@ -8,12 +8,13 @@ import { JsonGroup } from '../../shared/interfaces/json-group';
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, AfterViewChecked {
 
   fieldGroups: JsonGroup[] = [];
   backupGroups: JsonGroup[] = [];
   editMode = false;
   editingField: { groupIndex: number; fieldIndex: number; field: JsonField } = null;
+  groupAdded = false;
 
   constructor(private fieldService: FieldsService) { }
 
@@ -24,6 +25,13 @@ export class EditorComponent implements OnInit {
 
     if (this.fieldGroups.length === 0) {
       this.fieldGroups = JSON.parse(JSON.stringify(this.backupGroups));
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (this.groupAdded) {
+      this.scrollToEnd();
+      this.groupAdded = false;
     }
   }
 
@@ -79,13 +87,19 @@ export class EditorComponent implements OnInit {
   onAddGroup() {
     this.fieldGroups.push(
       {
-        groupId: "newGroup",
+        groupId: "$newGroup",
         groupLabel: "New Group",
         fields: []
       }
     );
     this.editMode = true;
-    // SCROLL TO NEW GROUP
+    this.groupAdded = true;
+    // After group is added AfterViewIsChecked will scroll to end of page
+  }
+
+  private scrollToEnd() {
+    const pageHeight = document.getElementById('header').scrollHeight + document.getElementById('editorSection').scrollHeight + document.getElementById('footer').scrollHeight;
+    window.scroll(0, pageHeight);
   }
 
   onDeleteGroup(groupId: number) {
