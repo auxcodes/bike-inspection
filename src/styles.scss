@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Viga&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Viga&display=swap");
 
 $btn-color: #fff;
 $btn-hover-color: #eee;
@@ -22,7 +22,34 @@ a {
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.btn-caution {
+  background-image: linear-gradient(150deg, #ffa50096, 75%, #b10101);
+  border: 1px solid #666;
+  &:disabled {
+    background-image: linear-gradient(150deg, #d4d4d4, #8b8b8b);
+    border: none;
+  }
+}
+
+.btn-positive {
+  background-image: linear-gradient(150deg, #7ff97f, 60%, #008d44);
+  border: 1px solid #777;
+  &:disabled {
+    background-image: linear-gradient(150deg, #d4d4d4, #8b8b8b);
+    border: none;
+  }
+}
+
+.btn-action {
+  background-image: linear-gradient(150deg, #00e7ff, 75%, #0027ff);
+  border: 1px solid #777;
+  &:disabled {
+    background-image: linear-gradient(150deg, #d4d4d4, #8b8b8b);
+    border: none;
+  }
 }
 
 .app-root {
@@ -67,7 +94,7 @@ button {
   border-left: none;
   border-bottom: none;
   border-radius: 0 40px 0 0;
-  box-shadow: 6px 9px 20px -6px rgba(0,0,0,0.7);
+  box-shadow: 6px 9px 20px -6px rgba(0, 0, 0, 0.7);
 }
 
 .section-header {
@@ -79,7 +106,7 @@ button {
   }
 
   .btn-normal {
-      border-radius: 0;
+    border-radius: 0;
   }
 
   button {
@@ -96,7 +123,7 @@ button {
     background-color: $btn-color;
     border: 1px solid #d2d2d2;
     font-size: 1em;
-    transition: background-color .15s;
+    transition: background-color 0.15s;
 
     &:hover {
       text-decoration: underline;

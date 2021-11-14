@@ -3,15 +3,18 @@
     <section class="field-section container-section">
       <div class="section-header fields-header">
         <h2 *ngIf="!mobileView">Inspection Notes</h2>
-        <app-tab-header class="tab-header" *ngIf="mobileView" (bookingNotes)="onShowBookingNotes($event)"></app-tab-header>
+        <app-tab-header class="tab-header" *ngIf="mobileView" (bookingNotes)="onShowBookingNotes($event)">
+        </app-tab-header>
         <ng-container *ngIf="loggedIn">
-          <button class="btn-normal" [ngClass]="{'btn-unsaved' : unsaved}" (click)="onSyncStorage()">Save</button>
-          <button (click)="onLoadHistory()">Load</button>
+          <button class="btn-normal btn-positive" [disabled]="!unsaved" (click)="onSyncStorage()">Save</button>
+          <button (click)="onLoadHistory()" class="btn-action">Load</button>
         </ng-container>
       </div>
       <ng-container *ngIf="(mobileView && !showBookingNotes) || !mobileView">
         <div class="booking-reference" *ngIf="lastUpdated !== 0">
-          <input [ngStyle]="!loggedIn ? {display: 'none'} : {}" type="text" class="field" [value]="reference ? reference : ''" (change)="onReferenceChange($event.target)" placeholder="Booking Reference" />
+          <input [ngStyle]="!loggedIn ? {display: 'none'} : {}" type="text" class="field"
+            [value]="reference ? reference : ''" (change)="onReferenceChange($event.target)"
+            placeholder="Booking Reference" />
           <p [ngStyle]="!loggedIn ? {'margin-left': 'auto'} : {}">{{ lastUpdated | date: "dd MMM yyyy hh:mm:ss" }}</p>
         </div>
         <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldsJson; let i = index">
@@ -22,10 +25,13 @@
             <span class="title title-text">Notes</span>
             <span class="title title-text">Cost</span>
             <ng-container id="groupFields" class="row" *ngFor="let field of group.fields">
-              <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected" (change)="onFieldSelected(i, $event.target)" />
+              <input class="cb" type="checkbox" [id]="field.name" [checked]="field.selected"
+                (change)="onFieldSelected(i, $event.target)" />
               <span class="field">{{field?.text}}</span>
-              <input type="text" class="field" [id]="field.id" [value]="field?.value" (change)="onFieldChange(i, $event.target)" />
-              <input type="number" class="field" [id]="field.name + '-cost'" [value]="field?.cost ? field?.cost : '0.00'" (change)="onCostChange(i, $event.target)" />
+              <input type="text" class="field" [id]="field.id" [value]="field?.value"
+                (change)="onFieldChange(i, $event.target)" />
+              <input type="number" class="field" [id]="field.name + '-cost'"
+                [value]="field?.cost ? field?.cost : '0.00'" (change)="onCostChange(i, $event.target)" />
             </ng-container>
           </div>
         </ng-container>
@@ -38,9 +44,11 @@
         <div class="fields" id="output">
           <textarea class="booking-text-area" [value]="output"></textarea>
         </div>
-        <button class="cost-button"(click)="onToggleCost(!includeCost)">{{includeCost ? 'Hide' : 'Show' }} Cost</button>
+        <button class="cost-button btn-action" (click)="onToggleCost(!includeCost)">{{includeCost ? 'Hide' : 'Show' }}
+          Cost</button>
       </ng-container>
     </section>
-    <app-booking-notes *ngIf="!mobileView" class="booking-notes" [notesInput]="output" (showCosts)="onToggleCost($event)"></app-booking-notes>
+    <app-booking-notes *ngIf="!mobileView" class="booking-notes" [notesInput]="output"
+      (showCosts)="onToggleCost($event)"></app-booking-notes>
   </div>
 </section>

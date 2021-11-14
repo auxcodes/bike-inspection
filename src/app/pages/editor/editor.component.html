@@ -5,7 +5,8 @@
         <h2>Interface Editor</h2>
         <button *ngIf="!editMode" class="btn-normal btn-positive" (click)="onToggleEdit()">Edit</button>
         <button *ngIf="editMode" class="btn-normal btn-caution" (click)="onCancelEdit()">Undo All</button>
-        <button *ngIf="editMode" class="btn-normal btn-positive" (click)="onSaveChanges()">Save</button>
+        <button *ngIf="editMode" class="btn-normal btn-positive" [disabled]="!unsaved"
+          (click)="onSaveChanges()">Save</button>
         <button class="btn-action" (click)="onAddGroup()">Add Group</button>
       </div>
       <ng-container id="fieldsJson" class="row" *ngFor="let group of fieldGroups; let i = index">

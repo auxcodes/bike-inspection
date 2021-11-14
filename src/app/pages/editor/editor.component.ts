@@ -15,6 +15,7 @@ export class EditorComponent implements OnInit, AfterViewChecked {
   editMode = false;
   editingField: { groupIndex: number; fieldIndex: number; field: JsonField } = null;
   groupAdded = false;
+  unsaved = false;
 
   constructor(private fieldService: FieldsService) { }
 
@@ -61,11 +62,13 @@ export class EditorComponent implements OnInit, AfterViewChecked {
     };
 
     this.addField(groupId, newField);
+    this.unsaved = true;
   }
 
   onDeleteField(fieldId: string, groupId: number) {
     const fieldIndex = this.fieldIndex(fieldId, groupId);
     this.fieldGroups[groupId].fields.splice(fieldIndex, 1);
+    this.unsaved = true;
   }
 
   onFieldChange(event: any, groupId: number) {
@@ -81,6 +84,7 @@ export class EditorComponent implements OnInit, AfterViewChecked {
     else {
       this.updateField(this.editingField);
     }
+    this.unsaved = true;
   }
 
   private updateField(field: any) {
@@ -101,6 +105,7 @@ export class EditorComponent implements OnInit, AfterViewChecked {
     );
     this.editMode = true;
     this.groupAdded = true;
+    this.unsaved = true;
     // After group is added AfterViewIsChecked will scroll to end of page
   }
 
@@ -108,6 +113,7 @@ export class EditorComponent implements OnInit, AfterViewChecked {
     this.fieldGroups[groupId].groupLabel = event.target.value;
     const id = event.target.value.replace(/\s+/g, '')
     this.fieldGroups[groupId].groupId = id;
+    this.unsaved = true;
   }
 
   private scrollToEnd() {
@@ -117,6 +123,7 @@ export class EditorComponent implements OnInit, AfterViewChecked {
 
   onDeleteGroup(groupId: number) {
     this.fieldGroups.splice(groupId, 1);
+    this.unsaved = true;
   }
 
   onToggleExtraNotes() {
@@ -125,6 +132,7 @@ export class EditorComponent implements OnInit, AfterViewChecked {
 
   onSaveChanges() {
     this.onToggleEdit();
+    this.unsaved = false;
     // backup last version
     // check history to see if there is any reference to version
 
@@ -135,6 +143,7 @@ export class EditorComponent implements OnInit, AfterViewChecked {
   onCancelEdit() {
     this.fieldGroups = this.deepCopy(this.backupGroups);
     this.onToggleEdit();
+    this.unsaved = false;
   }
 
   private addField(groupId: number, field: JsonField) {
