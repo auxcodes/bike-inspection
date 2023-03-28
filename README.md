@@ -6,7 +6,7 @@
 
 ![Site Preview](https://github.com/auxcodes/bike-inspection/blob/main/img/bikeInspectionFullPage.png)
 
-Website for generating consistent notes when inspecting bikes for servicing.
+Website for generating clear, consice and consistent notes when inspecting bikes for servicing.
 
 - Generates text in an easy to read format
 - Sync across multiple devices; inspect with phone in hand and sync to desktop
